@@ -1,3 +1,5 @@
+Soulworker DPS Meter for Global Server
+
 # SoulMeter
  <a href="https://donaricano.com/mypage/1575892812_S5rRYv" target="_blank">
 	<img
