@@ -1,5 +1,13 @@
 Soulworker DPS Meter for Global Server
 
+CTRL + DEL : Reset
+CTRL + END : Manual Pause/Resume
+
+You need to run dps meter before entering maze for viewing name and jobs (or not, all displays unknown)
+
+Also, USE AT YOUR OWN RISK
+I recommend not to talk about dps meter at in-game public chat
+
 # SoulMeter
  <a href="https://donaricano.com/mypage/1575892812_S5rRYv" target="_blank">
 	<img
