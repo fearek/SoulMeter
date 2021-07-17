@@ -1,3 +1,5 @@
+![](https://github.com/myusername4573/SoulMeter/blob/main/example.png)
+
 Soulworker DPS Meter for Global Server
 
 CTRL + DEL : Reset
