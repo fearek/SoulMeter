@@ -1,6 +1,7 @@
 #include "pch.h"
 #include ".\UI\DX Input.h"
 
+
 BOOL DXInput::Init(HINSTANCE hinst, HWND hWnd) {
 	
 	HRESULT result = DirectInput8Create(hinst, DIRECTINPUT_VERSION, IID_IDirectInput8, (LPVOID*)&_directInput, NULL);

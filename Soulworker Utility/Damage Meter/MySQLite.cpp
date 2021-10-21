@@ -1,5 +1,16 @@
 #include "pch.h"
+#include ".\Language\Region.h"
 #include ".\Damage Meter\MySQLite.h"
+
+#if defined(_LANG_KOREAN)
+constexpr auto LANG = "KR";
+#endif
+#ifdef _LANG_ENGLISH
+#define LANG "EN"
+#endif
+#ifdef _LANG_CHINESES
+#define LANG "TC"
+#endif
 
 MySQL::MySQL() : _db(nullptr), _memdb(nullptr) {
 
@@ -63,7 +74,7 @@ BOOL MySQL::InitSkillDB() {
 
 	CHAR* errbuf = nullptr;
 
-	const CHAR* sql = "CREATE TABLE IF NOT EXISTS Skill(Id INTEGER PRIMARY KEY, Name TEXT NOT NULL);";
+	const CHAR* sql = "CREATE TABLE IF NOT EXISTS Skill(Id INTEGER PRIMARY KEY, Name_KR TEXT NOT NULL);";
 
 	if (sqlite3_exec(_db, sql, 0, 0, &errbuf) != SQLITE_OK) {
 		Log::WriteLogA(const_cast<CHAR*>("Error in InitSkillDB : %s"), errbuf);
@@ -72,9 +83,10 @@ BOOL MySQL::InitSkillDB() {
 		return FALSE;
 	}
 
-	const CHAR* sql2 = "SELECT Name From Skill Where Id = ?";
+//	const CHAR* sql2 = "SELECT Name From Skill Where Id = ?";
+	std::string sql2 = string("SELECT Name_") + string(LANG) + " From Skill Where Id = ?";
 
-	if (sqlite3_prepare_v2(_db, sql2, -1, &_skill_stmt, 0) != SQLITE_OK) {
+	if (sqlite3_prepare_v2(_db, sql2.c_str(), -1, &_skill_stmt, 0) != SQLITE_OK) {
 		Log::WriteLogA(const_cast<CHAR*>("Error in sqlite3_prepare_v2 : %s"), sqlite3_errmsg(_db));
 
 		return FALSE;
@@ -87,7 +99,8 @@ BOOL MySQL::InitMonsterDB() {
 
 	CHAR* errbuf = nullptr;
 
-	const CHAR* sql = "CREATE TABLE IF NOT EXISTS Monster(Db1 INTEGER, Db2 INTEGER, Name TEXT NOT NULL, PRIMARY KEY(Db1, Db2));";
+	//const CHAR* sql = "CREATE TABLE IF NOT EXISTS Monster(Db1 INTEGER, Db2 INTEGER, Name_KR TEXT NOT NULL, PRIMARY KEY(Db1, Db2));";
+	const CHAR* sql = "CREATE TABLE IF NOT EXISTS Monster(Db2 INTEGER, Name_KR TEXT NOT NULL, PRIMARY KEY(Db2));";
 
 	if (sqlite3_exec(_db, sql, 0, 0, &errbuf) != SQLITE_OK) {
 		Log::WriteLogA(const_cast<CHAR*>("Error in InitMonsterDB : %s"), errbuf);
@@ -96,9 +109,10 @@ BOOL MySQL::InitMonsterDB() {
 		return FALSE;
 	}
 
-	const CHAR* sql2 = "SELECT Name From Monster Where Db1 = ? and Db2 = ?";
+	//std::string sql2 = "SELECT Name_" LANG " From Monster Where Db1 = ? and Db2 = ?";
+	std::string sql2 = "SELECT Name_"s + LANG + " From Monster Where Db2 = ?"s;
 
-	if (sqlite3_prepare_v2(_db, sql2, -1, &_monster_stmt, 0) != SQLITE_OK) {
+	if (sqlite3_prepare_v2(_db, sql2.c_str(), -1, &_monster_stmt, 0) != SQLITE_OK) {
 		Log::WriteLogA(const_cast<CHAR*>("Error in sqlite3_prepare_v2 : %s"), sqlite3_errmsg(_db));
 
 		return FALSE;
@@ -110,7 +124,7 @@ BOOL MySQL::InitMonsterDB() {
 BOOL MySQL::InitMapDB() {
 	CHAR* errbuf = nullptr;
 
-	const CHAR* sql = "CREATE TABLE IF NOT EXISTS Map(Id INTEGER PRIMARY KEY, Name TEXT NOT NULL);";
+	const CHAR* sql = "CREATE TABLE IF NOT EXISTS Map(Id INTEGER PRIMARY KEY, Name_KR TEXT NOT NULL);";
 
 	if (sqlite3_exec(_db, sql, 0, 0, &errbuf) != SQLITE_OK) {
 		Log::WriteLogA(const_cast<CHAR*>("Error in InitMapDB : %s"), errbuf);
@@ -119,9 +133,32 @@ BOOL MySQL::InitMapDB() {
 		return FALSE;
 	}
 
-	const CHAR* sql2 = "SELECT Name From Map Where Id = ?";
+	std::string sql2 = "SELECT Name_"s + LANG + " From Map Where Id = ?"s;
 
-	if (sqlite3_prepare_v2(_db, sql2, -1, &_map_stmt, 0) != SQLITE_OK) {
+	if (sqlite3_prepare_v2(_db, sql2.c_str(), -1, &_map_stmt, 0) != SQLITE_OK) {
+		Log::WriteLogA(const_cast<CHAR*>("Error in sqlite3_prepare_v2 : %s"), sqlite3_errmsg(_db));
+
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+BOOL MySQL::InitBuffDB() {
+	CHAR* errbuf = nullptr;
+
+	const CHAR* sql = "CREATE TABLE IF NOT EXISTS Buff(Id INTEGER PRIMARY KEY, Name_KR TEXT NOT NULL);";
+
+	if (sqlite3_exec(_db, sql, 0, 0, &errbuf) != SQLITE_OK) {
+		Log::WriteLogA(const_cast<CHAR*>("Error in InitBuffDB : %s"), errbuf);
+		sqlite3_free(errbuf);
+
+		return FALSE;
+	}
+
+	const CHAR* sql2 = "SELECT Name From Buff Where Id = ?";
+
+	if (sqlite3_prepare_v2(_db, sql2, -1, &_buff_stmt, 0) != SQLITE_OK) {
 		Log::WriteLogA(const_cast<CHAR*>("Error in sqlite3_prepare_v2 : %s"), sqlite3_errmsg(_db));
 
 		return FALSE;
@@ -170,6 +207,11 @@ BOOL MySQL::Init() {
 			break;
 		}
 
+		if (!InitBuffDB()) {
+			success = FALSE;
+			break;
+		}
+
 		if (!InitSkillTimelineDB()) {
 			success = FALSE;
 			break;
@@ -211,22 +253,21 @@ BOOL MySQL::GetSkillName(UINT32 skillId, CHAR* out_buffer, SIZE_T out_buffer_len
 	return TRUE;
 }
 
-BOOL MySQL::GetMonsterName(USHORT DB1, UINT32 DB2, CHAR* out_buffer, SIZE_T out_buffer_length) {
+BOOL MySQL::GetMonsterName(UINT32 DB2, CHAR* out_buffer, SIZE_T out_buffer_length) {
 
 	if (out_buffer == nullptr || _monster_stmt == nullptr)
 		return FALSE;
 
-	if (DB1 == 0) {
-		strcpy_s(out_buffer, out_buffer_length, const_cast<CHAR*>(u8"메이즈 정보 X"));
-		return TRUE;
-	}
+	//if (DB1 == 0) {
+	//	strcpy_s(out_buffer, out_buffer_length, const_cast<CHAR*>(u8"메이즈 정보 X"));
+	//	return TRUE;
+	//}
 
-	sprintf_s(out_buffer, out_buffer_length, "%d %d", DB1, DB2);
+	sprintf_s(out_buffer, out_buffer_length, "%d", DB2);
 
 	sqlite3_reset(_monster_stmt);
 
-	sqlite3_bind_int(_monster_stmt, 1, DB1);
-	sqlite3_bind_int(_monster_stmt, 2, DB2);
+	sqlite3_bind_int(_monster_stmt, 1, DB2);
 
 	INT step = sqlite3_step(_monster_stmt);
 
@@ -248,7 +289,7 @@ BOOL MySQL::GetMapName(UINT32 mapID, CHAR* out_buffer, SIZE_T out_buffer_length)
 		return FALSE;
 
 	if (mapID == 0) {
-		strcpy_s(out_buffer, out_buffer_length, const_cast<CHAR*>(u8"공백"));
+		strcpy_s(out_buffer, out_buffer_length, const_cast<CHAR*>(STR_WORLD_NO_INFORMATION));
 		return TRUE;
 	}
 
@@ -271,3 +312,34 @@ BOOL MySQL::GetMapName(UINT32 mapID, CHAR* out_buffer, SIZE_T out_buffer_length)
 
 	return TRUE;
 }
+
+BOOL MySQL::GetBuffName(UINT32 buffId, CHAR* out_buffer, SIZE_T out_buffer_length) {
+
+	if (out_buffer == nullptr || _buff_stmt == nullptr)
+		return FALSE;
+
+	if (buffId == 0) {
+		strcpy_s(out_buffer, out_buffer_length, const_cast<CHAR*>(u8"Unknown"));
+		return TRUE;
+	}
+
+	sprintf_s(out_buffer, out_buffer_length, "%d", buffId);
+
+	sqlite3_reset(_buff_stmt);
+
+	sqlite3_bind_int(_buff_stmt, 1, buffId);
+
+	INT step = sqlite3_step(_buff_stmt);
+
+	if (step == SQLITE_ROW) {
+		const CHAR* result = (const CHAR*)sqlite3_column_text(_buff_stmt, 0);
+
+		if (result == nullptr || strlen(result) > out_buffer_length)
+			return FALSE;
+
+		strcpy_s(out_buffer, out_buffer_length, result);
+	}
+
+	return TRUE;
+}
+

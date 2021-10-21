@@ -52,9 +52,6 @@
     <Filter Include="PacketCapture\Windivert">
       <UniqueIdentifier>{cc45cd86-4bc0-4752-9144-ca54c3369ea4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PacketCapture\Npcap">
-      <UniqueIdentifier>{06914ea2-a2cf-4890-bb91-273c88831e03}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{186890fb-9fce-434d-982a-2949c5a2fb52}</UniqueIdentifier>
     </Filter>
@@ -72,6 +69,51 @@
     </Filter>
     <Filter Include="UI\Window\UI">
       <UniqueIdentifier>{d1da892c-51f8-4ffd-af79-67efd73c9dad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Damge Meter\Buff Meter">
+      <UniqueIdentifier>{0e1b8015-2f51-4434-97a0-aa057ccba788}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Language">
+      <UniqueIdentifier>{df5bc8c9-605f-4439-9c65-8c00881c0be5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWPacket\Packet\0x01">
+      <UniqueIdentifier>{acc914fa-3a4f-422f-87c9-8cd9ecc56207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWPacket\Packet\0x03">
+      <UniqueIdentifier>{c930489b-5eba-48d0-96b8-d63818576279}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWPacket\Packet\0x04 World">
+      <UniqueIdentifier>{32470f88-4e3d-40ba-87d4-57873b5ca127}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWPacket\Packet\0x05">
+      <UniqueIdentifier>{11c3f2fa-39bb-4502-8a05-76681f143cba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWPacket\Packet\0x06 Combat">
+      <UniqueIdentifier>{6fea026e-c34f-4143-9659-e606cf463733}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWPacket\Packet\0x07">
+      <UniqueIdentifier>{fa8293a6-d4e0-41ef-9007-a8aff43aea0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWPacket\Packet\0x12 Party">
+      <UniqueIdentifier>{8a52c1c9-53c2-4467-a722-9343d97ae956}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWSPacket">
+      <UniqueIdentifier>{7ab77b79-1128-4b3c-98b9-89786dbdcfa1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWSPacket\0x06 Combat">
+      <UniqueIdentifier>{b3f3088d-8f3a-4d47-8ec1-fa0db1924152}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWPacket\Packet\0x23">
+      <UniqueIdentifier>{7f555519-1ef8-4524-ab04-21d92bad646d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWPacket\Packet\0x17">
+      <UniqueIdentifier>{0703aa35-35ed-44a9-acc5-9e44e43fc318}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWPacket\Packet\0x22 Guild">
+      <UniqueIdentifier>{431c215d-7997-4c5e-8721-8efea686854e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SWPacket\Packet\0x2e Force">
+      <UniqueIdentifier>{f911b8c3-fb70-445c-b73c-f1556b202276}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -105,9 +147,6 @@
     <ClInclude Include="Util\Type.h">
       <Filter>Utiliry\헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Packet Capture\MyNpcap.h">
-      <Filter>PacketCapture\Npcap</Filter>
-    </ClInclude>
     <ClInclude Include="Packet Capture\MyWinDivert.h">
       <Filter>PacketCapture\Windivert</Filter>
     </ClInclude>
@@ -126,25 +165,7 @@
     <ClInclude Include="Damage Meter\SWDamageSkill.h">
       <Filter>Damge Meter\SWDamageType</Filter>
     </ClInclude>
-    <ClInclude Include="Soulworker Packet\SWPacketDamage.h">
-      <Filter>SWPacket\Packet</Filter>
-    </ClInclude>
     <ClInclude Include="Soulworker Packet\SWPacket.h">
-      <Filter>SWPacket\Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="Soulworker Packet\SWPacketObjectCreate.h">
-      <Filter>SWPacket\Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="Soulworker Packet\SWPacketWorldChange.h">
-      <Filter>SWPacket\Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="Soulworker Packet\SWPacketAkasic.h">
-      <Filter>SWPacket\Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="Soulworker Packet\SWPacketParty.h">
-      <Filter>SWPacket\Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="Soulworker Packet\SWPacketPos.h">
       <Filter>SWPacket\Packet</Filter>
     </ClInclude>
     <ClInclude Include="UI\DX11.h">
@@ -167,12 +188,6 @@
     </ClInclude>
     <ClInclude Include="UI\DX Input.h">
       <Filter>UI\DirectX11</Filter>
-    </ClInclude>
-    <ClInclude Include="Soulworker Packet\SWPacketMazeEnd.h">
-      <Filter>SWPacket\Packet</Filter>
-    </ClInclude>
-    <ClInclude Include="Soulworker Packet\SWPacketMazeStart.h">
-      <Filter>SWPacket\Packet</Filter>
     </ClInclude>
     <ClInclude Include="Damage Meter\History.h">
       <Filter>Damge Meter</Filter>
@@ -197,6 +212,120 @@
     </ClInclude>
     <ClInclude Include="Third Party\tinyxml2\tinyxml2.h">
       <Filter>tinyxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="Buff Meter\Buff Meter.h">
+      <Filter>Damge Meter\Buff Meter</Filter>
+    </ClInclude>
+    <ClInclude Include="Buff Meter\Buff.h">
+      <Filter>Damge Meter\Buff Meter</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\PacketInfo.h">
+      <Filter>SWPacket\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Language\Korean.h">
+      <Filter>Language</Filter>
+    </ClInclude>
+    <ClInclude Include="Language\English.h">
+      <Filter>Language</Filter>
+    </ClInclude>
+    <ClInclude Include="Language\Region.h">
+      <Filter>Language</Filter>
+    </ClInclude>
+    <ClInclude Include="Chineses.h">
+      <Filter>Language</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketDamage.h">
+      <Filter>SWPacket\Packet\0x06 Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketBuffOut.h">
+      <Filter>SWPacket\Packet\0x06 Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketBuffIn.h">
+      <Filter>SWPacket\Packet\0x06 Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketAkasic.h">
+      <Filter>SWPacket\Packet\0x06 Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketParty.h">
+      <Filter>SWPacket\Packet\0x12 Party</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketWorldChange.h">
+      <Filter>SWPacket\Packet\0x04 World</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketMazeStart.h">
+      <Filter>SWPacket\Packet\0x04 World</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketMazeEnd.h">
+      <Filter>SWPacket\Packet\0x04 World</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketStatChange.h">
+      <Filter>SWPacket\Packet\0x03</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketPos.h">
+      <Filter>SWPacket\Packet\0x2e Force</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketObjectCreate.h">
+      <Filter>SWPacket\Packet\0x04 World</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketChat.h">
+      <Filter>SWPacket\Packet\0x07</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWSPacket.h">
+      <Filter>SWSPacket</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketCooldown.h">
+      <Filter>SWPacket\Packet\0x06 Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketUseSkill.h">
+      <Filter>SWPacket\Packet\0x06 Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketStartMove.h">
+      <Filter>SWPacket\Packet\0x05</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketOtherUseSkill.h">
+      <Filter>SWPacket\Packet\0x06 Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UtillWindow.h">
+      <Filter>UI\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PlotWindow.h">
+      <Filter>UI\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Third Party\imgui\implot.h">
+      <Filter>UI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Third Party\imgui\implot_internal.h">
+      <Filter>UI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWSPacketMaker.h">
+      <Filter>SWSPacket</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWSPacketMySkillUsed.h">
+      <Filter>SWSPacket\0x06 Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketSpawnedCharInfo.h">
+      <Filter>SWPacket\Packet\0x04 World</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketHeartbeat.h">
+      <Filter>SWPacket\Packet\0x01</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketGestureUsed.h">
+      <Filter>SWPacket\Packet\0x23</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketPartyListInfo.h">
+      <Filter>SWPacket\Packet\0x12 Party</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\MinimapTab.h">
+      <Filter>UI\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketAggroChanged.h">
+      <Filter>SWPacket\Packet\0x17</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketMonsterKilled.h">
+      <Filter>SWPacket\Packet\0x17</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -227,9 +356,6 @@
     <ClCompile Include="Util\Type.cpp">
       <Filter>Utiliry\소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Packet Capture\MyNpcap.cpp">
-      <Filter>PacketCapture\Npcap</Filter>
-    </ClCompile>
     <ClCompile Include="Packet Capture\MyWinDivert.cpp">
       <Filter>PacketCapture\Windivert</Filter>
     </ClCompile>
@@ -248,25 +374,7 @@
     <ClCompile Include="Damage Meter\SWDamageSkill.cpp">
       <Filter>Damge Meter\SWDamageType</Filter>
     </ClCompile>
-    <ClCompile Include="Soulworker Packet\SWPacketDamage.cpp">
-      <Filter>SWPacket\Packet</Filter>
-    </ClCompile>
     <ClCompile Include="Soulworker Packet\SWPacket.cpp">
-      <Filter>SWPacket\Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="Soulworker Packet\SWPacketObjectCreate.cpp">
-      <Filter>SWPacket\Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="Soulworker Packet\SWPacketWorldChange.cpp">
-      <Filter>SWPacket\Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="Soulworker Packet\SWPacketAkasic.cpp">
-      <Filter>SWPacket\Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="Soulworker Packet\SWPacketParty.cpp">
-      <Filter>SWPacket\Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="Soulworker Packet\SWPacketPos.cpp">
       <Filter>SWPacket\Packet</Filter>
     </ClCompile>
     <ClCompile Include="UI\DX11.cpp">
@@ -289,12 +397,6 @@
     </ClCompile>
     <ClCompile Include="UI\DX Input.cpp">
       <Filter>UI\DirectX11</Filter>
-    </ClCompile>
-    <ClCompile Include="Soulworker Packet\SWPacketMazeEnd.cpp">
-      <Filter>SWPacket\Packet</Filter>
-    </ClCompile>
-    <ClCompile Include="Soulworker Packet\SWPacketMazeStart.cpp">
-      <Filter>SWPacket\Packet</Filter>
     </ClCompile>
     <ClCompile Include="Damage Meter\History.cpp">
       <Filter>Damge Meter</Filter>
@@ -326,5 +428,106 @@
     <ClCompile Include="Third Party\tinyxml2\tinyxml2.cpp">
       <Filter>tinyxml2</Filter>
     </ClCompile>
+    <ClCompile Include="Buff Meter\Buff Meter.cpp">
+      <Filter>Damge Meter\Buff Meter</Filter>
+    </ClCompile>
+    <ClCompile Include="Buff Meter\Buff.cpp">
+      <Filter>Damge Meter\Buff Meter</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketDamage.cpp">
+      <Filter>SWPacket\Packet\0x06 Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketBuffOut.cpp">
+      <Filter>SWPacket\Packet\0x06 Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketBuffIn.cpp">
+      <Filter>SWPacket\Packet\0x06 Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketAkasic.cpp">
+      <Filter>SWPacket\Packet\0x06 Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketParty.cpp">
+      <Filter>SWPacket\Packet\0x12 Party</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketWorldChange.cpp">
+      <Filter>SWPacket\Packet\0x04 World</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketMazeStart.cpp">
+      <Filter>SWPacket\Packet\0x04 World</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketMazeEnd.cpp">
+      <Filter>SWPacket\Packet\0x04 World</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketStatChange.cpp">
+      <Filter>SWPacket\Packet\0x03</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketPos.cpp">
+      <Filter>SWPacket\Packet\0x2e Force</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketObjectCreate.cpp">
+      <Filter>SWPacket\Packet\0x04 World</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketChat.cpp">
+      <Filter>SWPacket\Packet\0x07</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWSPacket.cpp">
+      <Filter>SWSPacket</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketCooldown.cpp">
+      <Filter>SWPacket\Packet\0x06 Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketUseSkill.cpp">
+      <Filter>SWPacket\Packet\0x06 Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketStartMove.cpp">
+      <Filter>SWPacket\Packet\0x05</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketOtherUseSkill.cpp">
+      <Filter>SWPacket\Packet\0x06 Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UtillWindow.cpp">
+      <Filter>UI\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\PlotWindow.cpp">
+      <Filter>UI\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Third Party\imgui\implot.cpp">
+      <Filter>UI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Third Party\imgui\implot_items.cpp">
+      <Filter>UI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWSPacketMaker.cpp">
+      <Filter>SWSPacket</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWSPacketMySkillUsed.cpp">
+      <Filter>SWSPacket\0x06 Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketSpawnedCharInfo.cpp">
+      <Filter>SWPacket\Packet\0x04 World</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketHeartbeat.cpp">
+      <Filter>SWPacket\Packet\0x01</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketGestureUsed.cpp">
+      <Filter>SWPacket\Packet\0x23</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketPartyListInfo.cpp">
+      <Filter>SWPacket\Packet\0x12 Party</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\MinimapTab.cpp">
+      <Filter>UI\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketAggroChanged.cpp">
+      <Filter>SWPacket\Packet\0x17</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketMonsterKilled.cpp">
+      <Filter>SWPacket\Packet\0x17</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Soulworker Utility.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include ".\Soulworker Packet\SWPacket.h"
-#include ".\Damage Meter\Damage Meter.h"
 #include ".\Soulworker Packet\SWPacketPos.h"
+#include ".\Damage Meter\Damage Meter.h"
 
 SWPacketPos::SWPacketPos(SWHEADER* swheader, BYTE* data) : SWPacket(swheader, data) {
 
@@ -23,7 +23,7 @@ VOID SWPacketPos::Do() {
 
 		CHAR utf8[MAX_NAME_LEN] = { 0 };
 		if (!UTF16toUTF8(utf16, utf8, MAX_NAME_LEN)) {
-			Log::WriteLog(const_cast<LPTSTR>(_T("Error in SWPacketPos : UTF16toUTF8 FAILED")));
+			//Log::WriteLog(const_cast<LPTSTR>(_T("Error in SWPacketPos : UTF16toUTF8 FAILED")));
 			return;
 		}
 
@@ -53,11 +53,11 @@ VOID SWPacketPos::Debug() {
 
 		CHAR utf8[MAX_NAME_LEN] = { 0 };
 		if (!UTF16toUTF8(utf16, utf8, MAX_NAME_LEN)) {
-			Log::WriteLog(const_cast<LPTSTR>(_T("Error in SWPacketPos : UTF16toUTF8 FAILED")));
+			//Log::WriteLog(const_cast<LPTSTR>(_T("Error in SWPacketPos : UTF16toUTF8 FAILED")));
 			return;
 		}
 
-		Log::WriteLog(const_cast<LPTSTR>(_T("[DEBUG] [POS PLAYER %d] [ID %08x] [NAME = %s] [NICKMEMSIZE = %d] [JOB = %d]")), pos_data->_playerID, utf16, pos_data->_nickSize, job);
+		//Log::WriteLog(const_cast<LPTSTR>(_T("[DEBUG] [POS PLAYER %d] [ID %08x] [NAME = %s] [NICKMEMSIZE = %d] [JOB = %d]")), pos_data->_playerID, utf16, pos_data->_nickSize, job);
 
 		p_data += sizeof(SWPACKETPOS_DATA) + pos_data->_nickSize + SWPACKETPOS_DUMMY;
 	}

@@ -1,11 +1,17 @@
 #include "pch.h"
+#include ".\Language\Region.h"
 #include ".\UI\DX11.h"
 #include ".\UI\DX Input.h"
 #include ".\UI\UiWindow.h"
 #include ".\UI\PlayerTable.h"
 #include ".\UI\Option.h"
 #include ".\UI\HotKey.h"
+#include ".\UI\UtillWindow.h"
+#include ".\UI\PlotWindow.h"
 #include ".\Damage Meter\Damage Meter.h"
+#include <io.h>
+#include <chrono>
+#include <thread>
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -36,6 +42,7 @@ UiWindow::~UiWindow() {
 
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
+	ImPlot::DestroyContext();
 	ImGui::DestroyContext();
 }
 
@@ -58,7 +65,7 @@ BOOL UiWindow::Init(UINT x, UINT y, UINT width, UINT height) {
 		wc.lpszClassName = UI_WINDOW_CLASSNAME;
 		wc.hIconSm = NULL;
 	}
-
+	
 	if (!RegisterClassEx(&wc)) {
 		Log::WriteLog(const_cast<LPTSTR>(_T("Error in RegisterClassEx")));
 		return FALSE;
@@ -68,20 +75,24 @@ BOOL UiWindow::Init(UINT x, UINT y, UINT width, UINT height) {
 		Log::WriteLog(const_cast<LPTSTR>(_T("Error in CreateWindowEx : %x")), GetLastError());
 		return FALSE;
 	}
+//	SetLayeredWindowAttributes(_hWnd, 0, 180, LWA_ALPHA);
+//	SetLayeredWindowAttributes(_hWnd, 0, RGB(0, 0, 0), LWA_COLORKEY);
 
-	_x = x; _y = y; _width = width, _height = height;
+
+	_x = x; _y = y; _width = width, _height = height, _prevTimePoint = std::chrono::system_clock::now();
+
+	ShowWindow(_hWnd, SW_SHOWDEFAULT);
+	UpdateWindow(_hWnd);
 
 	if (!DIRECTX11.Init()) {
 		Log::WriteLog(const_cast<LPTSTR>(_T("Error in DirectX Init")));
 		return FALSE;
 	}
 
-	
 	if (!DXINPUT.Init(_hInst, _hWnd)) {
 		Log::WriteLog(const_cast<LPTSTR>(_T("Error in Direct Input Init")));
 		return FALSE;
 	}
-	
 
 	if ((_swapChain = DIRECTX11.CreateSwapChain(_hWnd)) == nullptr) {
 		Log::WriteLog(const_cast<LPTSTR>(_T("Error in CreateSwapChain")));
@@ -92,15 +103,12 @@ BOOL UiWindow::Init(UINT x, UINT y, UINT width, UINT height) {
 		Log::WriteLog(const_cast<LPTSTR>(_T("Error in CreateRenderTarget")));
 		return FALSE;
 	}
-
-	ShowWindow(_hWnd, SW_SHOWDEFAULT);
-	UpdateWindow(_hWnd);
-
+	
 	if (!InitImGUI()) {
 		Log::WriteLog(const_cast<LPTSTR>(_T("Error in Init ImGUI")));
 		return FALSE;
 	}
-
+	
 	return TRUE;
 }
 
@@ -108,8 +116,10 @@ BOOL UiWindow::InitImGUI() {
 
 	if (!IMGUI_CHECKVERSION())
 		return FALSE;
+	
 
 	_imGuiContext = ImGui::CreateContext();
+	ImPlot::CreateContext();
 	
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |= ImGuiConfigFlags_NavNoCaptureKeyboard;
@@ -121,11 +131,16 @@ BOOL UiWindow::InitImGUI() {
 	{
 		style.WindowRounding = 0.0f;
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+	//	style.Alpha = 0.5f;
+	//	ImGui::SetNextWindowBgAlpha(0.5f);
 	}
 
+	style.WindowMinSize = ImVec2(20, 20);
+
+	
 	if (!ImGui_ImplWin32_Init(_hWnd))
 		return FALSE;
-
+	
 	if (!ImGui_ImplDX11_Init(DIRECTX11.GetDevice(), DIRECTX11.GetDeviceContext()))
 		return FALSE;
 
@@ -158,7 +173,16 @@ BOOL UiWindow::SetFontList() {
 		char fontPath[MAX_BUFFER_LENGTH] = { 0 };
 		strcat_s(fontPath, path);
 		strcat_s(fontPath, fd.name);
+
+#ifdef SERVER_KOREA
 		io.Fonts->AddFontFromFileTTF(fontPath, 32, &config, io.Fonts->GetGlyphRangesKorean());
+#endif
+#ifdef SERVER_STEAM
+		io.Fonts->AddFontFromFileTTF(fontPath, 32, &config, io.Fonts->GetGlyphRangesChineseFull());
+#endif
+
+
+		
 	} while (_findnext(handle, &fd) != -1);
 	
 	_findclose(handle);
@@ -178,35 +202,37 @@ VOID UiWindow::Run() {
 			DispatchMessage(&msg);
 			continue;
 		}
-
+		
 		Update();
 	}
 }
 
 VOID UiWindow::Update() {
-
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
+	CalcDeltaTime();
 	DXINPUT.Update();
 	HOTKEY.Update();
 	UIOPTION.Update();
+	UTILLWINDOW.Update();
+	PLOTWINDOW.Update();
 	UpdateMainTable();
 
+	ImGui::EndFrame();
 	DrawScene();
 }
 
 VOID UiWindow::DrawScene() {
 	
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	ImVec4 clear_color = UIOPTION.GetWindowBGColor();
 
 	ImGui::Render();
 	DIRECTX11.GetDeviceContext()->OMSetRenderTargets(1, &_renderTargetView, NULL);
-	DIRECTX11.GetDeviceContext()->ClearRenderTargetView(_renderTargetView, (float*)&clear_color);
+	DIRECTX11.GetDeviceContext()->ClearRenderTargetView(_renderTargetView, (FLOAT*)&clear_color);
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-	
 	ImGuiIO& io = ImGui::GetIO();
 
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
@@ -215,19 +241,25 @@ VOID UiWindow::DrawScene() {
 		ImGui::RenderPlatformWindowsDefault();
 	}
 
-	_swapChain->Present(1, 0);
+	_swapChain->Present(UIOPTION.GetFramerate(), 0);
 }
 
 LRESULT UiWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
 	if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
-		return true;
+		return TRUE;
 
 	switch (msg) {
 	case WM_SIZE:
 		_width = LOWORD(lParam);
 		_height = HIWORD(lParam);
 		OnResize();
+		break;
+	case WM_KILLFOCUS:
+		UIOPTION.SetFramerate(4);
+		break;
+	case WM_SETFOCUS:
+		UIOPTION.SetFramerate(1);
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
@@ -255,6 +287,20 @@ VOID UiWindow::OnResize() {
 	}
 }
 
+VOID UiWindow::CalcDeltaTime() {
+	std::chrono::duration<FLOAT> deltaTime = std::chrono::system_clock::now() - _prevTimePoint;
+	_prevTimePoint = std::chrono::system_clock::now();
+	_deltaTime = deltaTime.count();
+}
+
 VOID UiWindow::UpdateMainTable() {
 	PLAYERTABLE.Update();
+}
+
+const HWND& UiWindow::GetHWND() {
+	return _hWnd;
+}
+
+const FLOAT& UiWindow::GetDeltaTime() {
+	return _deltaTime;
 }

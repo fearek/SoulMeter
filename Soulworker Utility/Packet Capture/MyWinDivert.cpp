@@ -1,6 +1,7 @@
 #include "pch.h"
 #include ".\Packet Capture\MyWinDivert.h"
 #include ".\Soulworker Packet\SWPacketMaker.h"
+#include ".\Soulworker Packet\SWSPacketMaker.h"
 
 DWORD MyWinDivert::Init() {
 
@@ -11,6 +12,7 @@ DWORD MyWinDivert::Init() {
 
 		if (_handle == INVALID_HANDLE_VALUE) {
 			Log::WriteLog(const_cast<LPTSTR>(_T("Error in WinDivertOpen: %x")), GetLastError());
+			error = ERROR_INVALID_HANDLE;
 			break;
 		}
 
@@ -22,6 +24,9 @@ DWORD MyWinDivert::Init() {
 }
 
 DWORD MyWinDivert::ReceiveCallback(LPVOID prc) {
+
+//	 Windivert 1.4.2 ¹öÀü¿ë
+#define WINDIVERT_MTU_MAX (40 + 0xFFFF)
 
 	DWORD error = ERROR_SUCCESS;
 
@@ -46,7 +51,11 @@ DWORD MyWinDivert::ReceiveCallback(LPVOID prc) {
 
 		while (TRUE) {
 
-			if (!WinDivertRecvEx(_this->_handle, pkt_data, packetlen, &recvlen, 0, &addr, &addrlen, NULL)) {
+			// Windivert 1.4.2
+				if (!WinDivertRecvEx(_this->_handle, pkt_data, packetlen, 0, &addr, &recvlen, NULL)) {
+			// WinDivert 2.2
+			//if (!WinDivertRecvEx(_this->_handle, pkt_data, packetlen, &recvlen, 0, &addr, &addrlen, NULL)) {
+		
 				Log::WriteLog(const_cast<LPTSTR>(_T("Error in WinDivertRecv : %x")), GetLastError());
 				continue;
 			}
@@ -89,16 +98,27 @@ DWORD MyWinDivert::ReceiveCallback(LPVOID prc) {
 				printf("\n");
 				printf("[Packet Data End]\n");
 #endif
+				
+				USHORT realSrcPort = _byteswap_ushort(packet._tcpHeader->src_port);
+				USHORT realDstPort = _byteswap_ushort(packet._tcpHeader->dest_port);
+
+				//Log::MyLog(_T("realSrcPort : %u / realDstPort : %u\n"), realSrcPort, realDstPort);
 
 				// Todo
-				SWPACKETMAKER.Parse(&packet);
+				if (realSrcPort == 10200) {
+					SWPACKETMAKER.Parse(&packet);
+				}
+				else if (realDstPort == 10200) {
+					SWSPACKETMAKER.Parse(&packet);
+				}
+				
 			}
 				break;
 			default:
+				Log::WriteLogA(const_cast<CHAR*>("Receive Callback : IP Header is not IPv4 : %04x"), packet._ipHeader->version);
 				break;
 			}
 		}
-
 	} while (false);
 
 	return error;

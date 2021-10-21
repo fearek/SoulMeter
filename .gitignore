@@ -12,6 +12,9 @@
 # Npcap
 npcap/
 
+#Font File
+*.ttf
+
 # User-specific files
 *.rsuser
 *.suo

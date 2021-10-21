@@ -3,9 +3,10 @@
 #include ".\Damage Meter\SWDamageMonster.h"
 #include ".\Damage Meter\MySQLite.h"
 
-SWDamageMonster::SWDamageMonster(UINT32 id, USHORT db1, UINT32 db2, UINT64 damage, UINT64 critDamage, USHORT hitCount, USHORT critHitCount, UINT32 skillID) {
+#define DEBUG_DAMAGE_MONSTER 0
+
+SWDamageMonster::SWDamageMonster(UINT32 id, UINT32 db2, UINT64 damage, UINT64 critDamage, USHORT hitCount, USHORT critHitCount, UINT32 skillID) {
 	_id = id;
-	_db1 = db1;
 	_db2 = db2;
 	_damage = damage;
 	_critDamage = critDamage;
@@ -13,7 +14,7 @@ SWDamageMonster::SWDamageMonster(UINT32 id, USHORT db1, UINT32 db2, UINT64 damag
 	_critHitCount = critHitCount;
 
 	ZeroMemory(_name, MONSTER_NAME_LEN);
-	SWDB.GetMonsterName(db1, db2, _name, MONSTER_NAME_LEN);
+	SWDB.GetMonsterName(db2, _name, MONSTER_NAME_LEN);
 
 #if DEBUG_DAMAGE_MONSTER == 1
 	Log::WriteLog(const_cast<LPTSTR>(_T("\t[MONSTER] [ID = %d] [DB1 = %d] [DB2 = %d] [NAME = %s] [DMG = %llu] [cirDMG = %llu] [hitCount = %d] [cirtHitCount = %d]")), _id, _db1, _db2, _name, _damage, _critDamage, _hitCount, _critHitCount);
@@ -72,9 +73,9 @@ UINT32 SWDamageMonster::GetID() {
 	return _id;
 }
 
-USHORT SWDamageMonster::GetDB1() {
-	return _db1;
-}
+//USHORT SWDamageMonster::GetDB1() {
+//	return _db1;
+//}
 
 UINT32 SWDamageMonster::GetDB2() {
 	return _db2;

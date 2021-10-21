@@ -1,5 +1,7 @@
 #pragma once
+#include ".\Language\Region.h"
 #include ".\Soulworker Packet\PacketType.h"
+#include ".\Soulworker Packet\SWPacket.h"
 
 #define SWPACKETMAKER SWPacketMaker::getInstance()
 
@@ -101,9 +103,17 @@ private:
 			return &_packet;
 		}
 	};
+	
 
 	VOID Decrypt(BYTE* data, const UINT size, const UINT start);
-	CHAR _keyTable[3] = { 0x60, 0x3B, 0x0B };
+
+#if defined(SERVER_KOREA)
+	BYTE _keyTable[15] = { 0xee, 0x1b, 0xde, 0xa6, 0x46, 0xe9, 0x2a, 0xdb, 0x97, 0x67, 0x9c, 0x02, 0x3c, 0xce, 0x9a };
+#endif
+#if defined(SERVER_STEAM)
+	BYTE _keyTable[15] = { 0xd4, 0x59, 0xef, 0x2d, 0x22, 0x24, 0xb0, 0xc5, 0x0a, 0xa0, 0xd9, 0xad, 0x63, 0x9d, 0x0f };
+#endif
+	
 
 	SWHEADER* GetSWHeader(IPv4Packet* packet);
 	BYTE* GetSWData(IPv4Packet* packet);

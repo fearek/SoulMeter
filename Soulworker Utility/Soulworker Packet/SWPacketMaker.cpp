@@ -12,15 +12,20 @@ SWPacketMaker::~SWPacketMaker() {
 
 SWHEADER* SWPacketMaker::GetSWHeader(IPv4Packet* packet) {
 
-	if (packet == nullptr || packet->_datalength < sizeof(SWHEADER))
+	if (packet == nullptr || packet->_datalength < sizeof(SWHEADER)) {
 		return nullptr;
+	}
+		
 
 	SWHEADER* swheader = (SWHEADER*)(packet->_data);
 
-	if (swheader->_magic != SWMAGIC || swheader->_const_value01 != SWCONSTVALUE)
+	if (swheader->_magic != SWMAGIC || swheader->_const_value01 != SWCONSTVALUE) {
 		return nullptr;
+	}
+		
 
 	return swheader;
+
 }
 
 BYTE* SWPacketMaker::GetSWData(IPv4Packet* packet) {
@@ -34,7 +39,7 @@ VOID SWPacketMaker::Decrypt(BYTE* data, const UINT size, const UINT start) {
 		return;
 
 	for (UINT i = 0; i < size; i++) 
-		data[i + start] ^= _keyTable[i % 3];
+		data[i + start] ^= _keyTable[i % (sizeof(_keyTable) / sizeof(BYTE))];
 }
 
 VOID SWPacketMaker::ResizePacket(IPv4Packet* packet) {
@@ -78,15 +83,16 @@ VOID SWPacketMaker::ResizePacket(SIZE_T remainsize, IPv4Packet* packet) {
 }
 
 DWORD SWPacketMaker::CheckSegmentation(IPv4Packet* packet) {
-
 	if (_isSegmentation) {
 		return REASSAMBLY;
 	}
 	else {
 		SWHEADER* swheader = GetSWHeader(packet);
 
-		if (swheader == nullptr)
+		if (swheader == nullptr) {
 			return NO_SWHEADER;
+		}
+			
 
 		if (packet->_datalength < swheader->_size) {
 			_isSegmentation = TRUE;
@@ -162,42 +168,117 @@ VOID SWPacketMaker::CreateSWPacket(IPv4Packet* packet) {
 	Decrypt(data, swheader->_size - sizeof(SWHEADER) + 2, sizeof(SWHEADER) - 2);
 
 	SWPacket* swpacket = nullptr;
-
 	DAMAGEMETER.GetLock();
 	{
+		switch (_byteswap_ushort(swheader->_op)) {
 
-		switch (swheader->_op) {
-		case OPcode::DAMAGE:
-			swpacket = new SWPacketDamage(swheader, data);
+			/* 0x01*/
+		case OPcode::HEARTBEAT:
+			//swpacket = new SWPacketHeartbeat(swheader, data);
 			break;
-		case OPcode::OBJECTCREATE:
-			swpacket = new SWPacketObjectCreate(swheader, data);
+
+			/*0x03*/
+		case OPcode::STATCHANGE:
+			swpacket = new SWPacketStatChange(swheader, data);
 			break;
+
+			/*0x04*/
 		case OPcode::WORLDCHANGE:
 			swpacket = new SWPacketWorldChange(swheader, data);
-			break;
-		case OPcode::AKASIC:
-			swpacket = new SWPacketAkasic(swheader, data);
-			break;
-		case OPcode::PARTY:
-			swpacket = new SWPacketParty(swheader, data);
-			break;
-		case OPcode::POS:
-			swpacket = new SWPacketPos(swheader, data);
 			break;
 		case OPcode::MAZESTART:
 			swpacket = new SWPacketMazeStart(swheader, data);
 			break;
+		case OPcode::SPAWNED_CHARINFO:
+			swpacket = new SWPacketSpawnedCharInfo(swheader, data);
+			break;
+		case OPcode::OBJECTCREATE:
+			swpacket = new SWPacketObjectCreate(swheader, data);
+			break;
+
+			/*0x05*/
+		case OPcode::STARTMOVE:
+			swpacket = new SWPacketStartMove(swheader, data);
+			break;
+		case OPcode::STOPMOVE:
+			break;
+		case OPcode::JUMP:
+			break;
+		case OPcode::CANCEL_WITHMOVE:
+			break;
+
+			/*0x06 Combat*/
+		case OPcode::EVADE:
+			break;
+		case OPcode::USESKILL:
+			swpacket = new SWPacketUseSkill(swheader, data);
+			break;
+		case OPcode::OTHER_USESKILL:
+			swpacket = new SWPacketOtherUseSkill(swheader, data);
+			break;
+		case OPcode::DAMAGE:
+			swpacket = new SWPacketDamage(swheader, data);
+			break;
+		case OPcode::BUFFIN:
+			swpacket = new SWPacketBuffIn(swheader, data);
+			break;
+		case OPcode::BUFFOUT:
+			swpacket = new SWPacketBuffOut(swheader, data);
+			break;
+		case OPcode::PROJECTILE:
+			break;
+		case OPcode::AKASIC:
+			swpacket = new SWPacketAkasic(swheader, data);
+			break;
+		case OPcode::COOLDOWN:
+			swpacket = new SWPacketCooldown(swheader, data);
+			break;
+
+			/*0x07*/
+		case OPcode::CHAT:
+			swpacket = new SWPacketChat(swheader, data);
+			break;
+
+			/* 0x11 */
+
 		case OPcode::MAZEEND:
 			swpacket = new SWPacketMazeEnd(swheader, data);
 			break;
+
+			/* 0x12 Party */
+		case OPcode::PARTY:
+			swpacket = new SWPacketParty(swheader, data);
+			break;
+		case OPcode::PARTY_LIST_INFO:
+			//swpacket = new SWPacketPartyListInfo(swheader, data);
+			break;
+
+			/* 0x17 ?? */
+		case OPcode::MONSTER_KILLED:
+			swpacket = new SWPacketMonsterKilled(swheader, data);
+			break;
+		case OPcode::AGGRO_CHANGED:
+			swpacket = new SWPacketAggroChanged(swheader, data);
+			break;
+
+			/* 0x23 Gesture*/
+		case OPcode::GESTURE_USED:
+			//swpacket = new SWPacketGestureUsed(swheader, data);
+			break;
+
+			/* 0x2e Force*/
+		case OPcode::POS:
+			swpacket = new SWPacketPos(swheader, data);
+			break;
+
+
 		default:
-			swpacket = new SWPacket(swheader, data);
+			//swpacket = new SWPacket(swheader, data);
 			break;
 		}
 
 		if (swpacket != nullptr) {
-#if DEBUG_CREATEPACKET == 1
+#if DEBUG_CREATEPACKET == 1 // && defined(_DEBUG)
 			swpacket->Debug();
 #endif
 			// Todo
@@ -221,7 +302,7 @@ DWORD SWPacketMaker::Parse(IPv4Packet* packet) {
 
 	if (packet == nullptr)
 		return ERROR_INVALID_PARAMETER;
-	
+
 	switch (CheckSegmentation(packet)) {
 	case NO_SEGMENTATION:
 		CreateSWPacket(packet);

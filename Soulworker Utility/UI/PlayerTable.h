@@ -1,8 +1,6 @@
 #pragma once
 #include ".\UI\SpecificInfomation.h"
 
-extern ImGuiContext* GImGui;
-
 typedef struct _SELECTED_PLAYER {
 	
 	UINT32 _playerID;
@@ -23,20 +21,24 @@ private:
 	VOID BeginPopupMenu();
 
 	VOID SetWindowSize();
-	VOID StoreColumnWidth(INT columnSize);
+	VOID SetMainWindowSize();
+	VOID StoreWindowWidth();
 	VOID SetupFontScale();
 
 	VOID DrawBar(FLOAT window_Width, FLOAT percent, ImU32 color);
 	VOID SetupTable();
 	VOID UpdateTable(FLOAT windowWidth);
-	
-	BOOL _tableResize;
 
 	FLOAT _globalFontScale;
 	FLOAT _columnFontScale;
 	FLOAT _tableFontScale;
 
 	FLOAT _curWindowSize;
+
+	BOOL _tableResize;
+
+	FLOAT _tableTime;
+	FLOAT _accumulatedTime;
 
 public:
 	PlayerTable();

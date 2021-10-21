@@ -52,6 +52,11 @@ USHORT SWDamageSkill::GetCritHitCount() {
 	return _critHitCount;
 }
 
+USHORT SWDamageSkill::GetSkillUsed()
+{
+	return _skillCasts;
+}
+
 CHAR* SWDamageSkill::GetName() {
 	return _name;
 }

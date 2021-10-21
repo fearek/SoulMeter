@@ -1,10 +1,12 @@
 #include "pch.h"
+#include ".\Language\Region.h"
 #include ".\UI\Option.h"
 #include ".\UI\HotKey.h"
 #include ".\UI\PlayerTable.h"
+#include ".\UI\UiWindow.h"
 #include ".\Damage Meter\Damage Meter.h"
 
-UiOption::UiOption()  : _open(0) {
+UiOption::UiOption()  : _open(0), _framerate(1), _windowBorderSize(1), _fontScale(1), _columnFontScale(1), _tableFontScale(1), _is1K(0), _is1M(0), _isSoloMode(0), _hideName(0), _isTopMost(true), _cellPadding(0,0), _windowWidth(800), _refreshTime(0.3)  {
 	_jobBasicColor[0] = ImVec4(ImGui::ColorConvertU32ToFloat4(ImColor(153, 153, 153, 255)));	// Unknown
 	_jobBasicColor[1] = ImVec4(ImGui::ColorConvertU32ToFloat4(ImColor(247, 142, 59, 255)));	// 하루
 	_jobBasicColor[2] = ImVec4(ImGui::ColorConvertU32ToFloat4(ImColor(59, 147, 247, 255)));	// 어윈
@@ -15,47 +17,35 @@ UiOption::UiOption()  : _open(0) {
 	_jobBasicColor[7] = ImVec4(ImGui::ColorConvertU32ToFloat4(ImColor(138, 2, 4, 255)));		// 치이
 	_jobBasicColor[8] = ImVec4(ImGui::ColorConvertU32ToFloat4(ImColor(118, 206, 158, 255)));	// 에프넬
 	_jobBasicColor[9] = ImVec4(ImGui::ColorConvertU32ToFloat4(ImColor(128, 128, 64, 255)));	// 이나비
+
+	for (int i = 0; i < 10; i++)
+		_jobColor[i] = _jobBasicColor[i];
 }
 
 UiOption::~UiOption() {
 	
 }
 
-BOOL UiOption::ShowStyleSelector(const CHAR* label) {
-
-	ImGui::Text(u8"기본 스타일을 선택하세요.");
-
-	if (ImGui::Combo(label, &_styleIndex, "Classic\0Dark\0Light\0"))
-	{
-		switch (_styleIndex)
-		{
-		case 0: ImGui::StyleColorsClassic(); break;
-		case 1: ImGui::StyleColorsDark(); break;
-		case 2: ImGui::StyleColorsLight(); break;
-		}
-		return TRUE;
-	}
-	return FALSE;
-}
-
 BOOL UiOption::ShowFontSelector() {
 
 	ImFont* font_current = ImGui::GetFont();
 
-	ImGui::Text(u8"Font Scale을 조정하여 Table 크기를 조정 할 수 있습니다.");
-	ImGui::DragFloat("Font Scale", &_fontScale, 0.005f, 0.3f, 2.0f, "%.1f");
+	ImGui::Text(STR_OPTION_FONTSCALE_DESC);
+	ImGui::DragFloat(STR_OPTION_FONTSCALE, &_fontScale, 0.005f, 0.3f, 2.0f, "%.1f");
 
 	font_current->Scale = _fontScale;
 
-	if (ImGui::Checkbox(u8"단위 설정(1K)", (bool*)&_is1K)) {
+	if (ImGui::Checkbox(STR_OPTION_UNIT_1K, (bool*)&_is1K)) {
 		if (_is1M)
 			_is1M = FALSE;
 	}
 
-	if (ImGui::Checkbox(u8"단위 설정(1M)", (bool*)&_is1M)) {
+	if (ImGui::Checkbox(STR_OPTION_UNIT_1M, (bool*)&_is1M)) {
 		if (_is1K)
 			_is1K = FALSE;
 	}
+	ImGui::Checkbox(STR_OPTION_SOLO_MODE, (bool*)&_isSoloMode);
+	ImGui::Checkbox(STR_OPTION_HIDE_NAME, (bool*)&_hideName);
 
 	return TRUE;
 }
@@ -64,23 +54,29 @@ BOOL UiOption::ShowTableOption() {
 
 	ImGuiStyle& style = ImGui::GetStyle();
 
-	ImGui::SliderFloat("WindowBorderSize", &style.WindowBorderSize, 0.0f, 1.0f, "%.0f");
-	ImGui::SliderFloat2("CellPadding", (float*)&style.CellPadding, 0.0f, 20.0f, "%.0f");
-	ImGui::DragFloat("Column Font Scale", &_columnFontScale, 0.005f, 0.3f, 2.0f, "%.1f");
-	ImGui::DragFloat("Table Font Scale", &_tableFontScale, 0.005f, 0.3f, 2.0f, "%.1f");
+	ImGui::SliderFloat(STR_OPTION_WINDOW_BORDER_SIZE, &_windowBorderSize, 0.0f, 1.0f, "%.0f");
+	style.WindowBorderSize = _windowBorderSize;
+	ImGui::SliderFloat2(STR_OPTION_CELL_PADDING, (float*)&_cellPadding, 0.0f, 20.0f, "%.0f");
+	style.CellPadding = _cellPadding;
+	ImGui::DragFloat(STR_OPTION_COLUMN_FONT_SCALE, &_columnFontScale, 0.005f, 0.3f, 2.0f, "%.1f");
+	ImGui::DragFloat(STR_OPTION_TABLE_FONT_SCALE, &_tableFontScale, 0.005f, 0.3f, 2.0f, "%.1f");
 	ImGui::Separator();
-	ImGui::ColorEdit4("##ColorText", (FLOAT*)&style.Colors[0], ImGuiColorEditFlags_None); 
+	ImGui::DragFloat(STR_OPTION_TABLE_REFRESH_TIME, &_refreshTime, 0.005f, 0.1f, 1.0f, "%.1f");
+	ImGui::Separator();
+	ImGui::ColorEdit4("##ColorText", (FLOAT*)&_textColor, ImGuiColorEditFlags_None); 
 	ImGui::SameLine(); 	ImGui::Text(ImGui::GetStyleColorName(0));
-	ImGui::ColorEdit4("##ColorBgr", (FLOAT*)&style.Colors[2], ImGuiColorEditFlags_None); 
+	style.Colors[0] = _textColor;
+	ImGui::ColorEdit4("##ColorBgr", (FLOAT*)&_windowBg, ImGuiColorEditFlags_None);
 	ImGui::SameLine();	ImGui::Text(ImGui::GetStyleColorName(2));
+	style.Colors[2] = _windowBg;
 	ImGui::ColorEdit4("##ColorOutline", (FLOAT*)&_outlineColor, ImGuiColorEditFlags_None);
-	ImGui::SameLine();	ImGui::Text(u8"텍스트 Outline 색상");
+	ImGui::SameLine();	ImGui::Text(STR_OPTION_TEXT_OUTLINE_COLOR);
 	ImGui::ColorEdit4("##ColorActiveColor", (FLOAT*)&_activeColor[1], ImGuiColorEditFlags_None);
-	ImGui::SameLine();	ImGui::Text(u8"Active Color");
+	ImGui::SameLine();	ImGui::Text(STR_OPTION_ACTIVE_COLOR);
 	ImGui::ColorEdit4("##ColorInActiveColor", (FLOAT*)&_activeColor[0], ImGuiColorEditFlags_None);
-	ImGui::SameLine();	ImGui::Text(u8"InActive Color");
+	ImGui::SameLine();	ImGui::Text(STR_OPTION_INACTIVE_COLOR);
 
-	const char job[10][32] = { {u8"Unknown"}, {u8"하루"}, {u8"고윈"}, {u8"릴퀴"}, {u8"진따"}, {u8"스텔라"},{u8"이리스"}, {u8"치이"}, {u8"콩프넬"}, {u8"tag: Big Tits(이나비)"} };
+	const char job[10][32] = { {STR_CHAR_UNKNOWN}, {STR_CHAR_HARU}, {STR_CHAR_ERWIN}, {STR_CHAR_LILY}, {STR_CHAR_JIN}, {STR_CHAR_STELLA},{STR_CHAR_IRIS}, {STR_CHAR_CHII}, {STR_CHAR_Ephnel}, {STR_CHAR_NABI} };
 
 	for (int i = 0; i < 10; i++) {
 		ImGui::PushID(i);
@@ -89,7 +85,7 @@ BOOL UiOption::ShowTableOption() {
 
 		if (memcmp(&_jobColor[i], &_jobBasicColor[i], sizeof(ImVec4)) != 0) {
 			ImGui::SameLine(0.0f, style.ItemInnerSpacing.x); 
-			if (ImGui::Button(u8"기본 색상으로 바꾸기")) {
+			if (ImGui::Button(STR_OPTION_RESTORE_DEFAULT_COLOR)) {
 				_jobColor[i] = _jobBasicColor[i];
 			}
 		}
@@ -103,11 +99,11 @@ BOOL UiOption::ShowTableOption() {
 BOOL UiOption::ShowHotkeySetting() {
 
 	const char* text =
-		u8"기본 일시정지/재개 키는 CTRL + END 키입니다.\n"
-		u8"기본 초기화 키는 CTRL + DEL 키입니다.\n"
-		u8"현재는 option.XML에서 직접 수정해야 합니다.\n"
-		u8"각 키의 값은 DirectInput Code Table이 기준입니다.\n"
-		u8"각 키는 key1부터 순서대로 넣되, 할당하지 않을 키는 -1로 넣어야 합니다.\n";
+		STR_OPTION_HOTKEY_DESC_1
+		STR_OPTION_HOTKEY_DESC_2
+		STR_OPTION_HOTKEY_DESC_3
+		STR_OPTION_HOTKEY_DESC_4
+		STR_OPTION_HOTKEY_DESC_5;
 
 	ImGui::Text(text);
 
@@ -122,8 +118,9 @@ VOID UiOption::Helper() {
 	UINT monster[4] = { 1323502223, 1324283942, 1321158942, 1174505472 };
 	UINT skill[4] = { 72000233, 72000331, 72000433, 72000638 };
 
-	DAMAGEMETER.SetWorldID(21017);
-	DAMAGEMETER.SetMyID(3);
+	if (DAMAGEMETER.GetWorldID() == 0) {
+		DAMAGEMETER.SetWorldID(20011);
+	}
 
 	DAMAGEMETER.InsertDB(0, monster[0]);
 	DAMAGEMETER.InsertDB(1, monster[1]);
@@ -135,16 +132,26 @@ VOID UiOption::Helper() {
 	DAMAGEMETER.InsertDB(7, monster[3]);
 
 	for (INT i = 0; i < 4; i++) {
-		sprintf_s(name, 128, "%s %d",u8"플레이어", helper);
-		DAMAGEMETER.InsertPlayerMetadata(helper, name, helper % 10);
-		DAMAGEMETER.AddDamage(helper, helper * 10000, helper * 5000, 1, 1, helper * 2, i % 8, skill[i % 4]);
-		DAMAGEMETER.AddDamage(helper, helper * 20000, helper * 5000, 1, 1, helper * 3, (i + 1) % 8, skill[(i + 1) % 4]);
-		DAMAGEMETER.AddDamage(helper, helper * 30000, helper * 5000, 1, 1, helper * 4, (i + 2) % 8, skill[(i + 2) % 4]);
-		DAMAGEMETER.AddDamage(helper, helper * 40000, helper * 5000, 1, 1, helper * 5, (i + 3) % 8, skill[(i + 3) % 4]);
-		DAMAGEMETER.AddDamage(helper, helper * 20000, helper * 5000, 1, 1, helper * 3, (i + 4) % 8, skill[(i + 1) % 4]);
-		DAMAGEMETER.AddDamage(helper, helper * 30000, helper * 5000, 1, 1, helper * 4, (i + 5) % 8, skill[(i + 2) % 4]);
-		DAMAGEMETER.AddDamage(helper, helper * 40000, helper * 5000, 1, 1, helper * 5, (i + 6) % 8, skill[(i + 3) % 4]);
-		DAMAGEMETER.AddDamage(helper, helper * 40000, helper * 5000, 1, 1, helper * 5, (i + 7) % 8, skill[(i + 3) % 4]);
+		sprintf_s(name, 128, "%s %d", STR_OPTION_TEST_VALUE_PLAYER, helper);
+		
+		UINT64 id;
+		if (helper == 3) {
+			id = DAMAGEMETER.GetMyID();
+		}
+		else {
+			id = helper;
+			DAMAGEMETER.InsertPlayerMetadata(id, name, helper % 10);
+		}
+
+		//DAMAGEMETER.InsertPlayerMetadata(id, name, helper % 10);
+		DAMAGEMETER.AddDamage(id, helper * 10000, helper * 5000, 4, helper * 2, i % 8, skill[i % 4]);
+		DAMAGEMETER.AddDamage(id, helper * 20000, helper * 5000, 4, helper * 3, (i + 1) % 8, skill[(i + 1) % 4]);
+		DAMAGEMETER.AddDamage(id, helper * 30000, helper * 5000, 4, helper * 4, (i + 2) % 8, skill[(i + 2) % 4]);
+		DAMAGEMETER.AddDamage(id, helper * 40000, helper * 5000, 4, helper * 5, (i + 3) % 8, skill[(i + 3) % 4]);
+		DAMAGEMETER.AddDamage(id, helper * 20000, helper * 5000, 4, helper * 3, (i + 4) % 8, skill[(i + 1) % 4]);
+		DAMAGEMETER.AddDamage(id, helper * 30000, helper * 5000, 4, helper * 4, (i + 5) % 8, skill[(i + 2) % 4]);
+		DAMAGEMETER.AddDamage(id, helper * 40000, helper * 5000, 4, helper * 5, (i + 6) % 8, skill[(i + 3) % 4]);
+		DAMAGEMETER.AddDamage(id, helper * 40000, helper * 5000, 4, helper * 5, (i + 7) % 8, skill[(i + 3) % 4]);
 		helper++;
 	}
 }
@@ -158,38 +165,35 @@ VOID UiOption::OpenOption() {
 		PLAYERTABLE.ResizeTalbe();
 	}
 
-	ImGui::Begin("Option", 0, ImGuiWindowFlags_None);
+	ImGui::Begin(STR_OPTION_WINDOWS_NAME, 0, ImGuiWindowFlags_None);
 
-		if (ImGui::Button(u8"더미 데미지 추가")) {
+		if (ImGui::Button(STR_OPTION_ADD_TEST_VALUE)) {
 			Helper();
 		}
 
 		ImGui::SameLine(); 		
 		
-		if (ImGui::Button(u8"저장하고 종료하기")) {
+		if (ImGui::Button(STR_OPTION_SAVE_AND_EXIT)) {
 			SaveOption();
+			if (DAMAGEMETER.GetWorldID() == 20011) {
+				DAMAGEMETER.SetWorldID(0);
+			}
 			_open = FALSE;
 		}
-
-		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.5f);
-		ShowStyleSelector("Style");
-		ImGui::PopItemWidth();
-
-		ImGui::Separator();
 
 		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.2f);
 		ShowFontSelector();
 		ImGui::PopItemWidth();
 
 		if (ImGui::BeginTabBar("##tabs")) {
-			if (ImGui::BeginTabItem(u8"Table 설정")) {
+			if (ImGui::BeginTabItem(STR_OPTION_TAB_TABLE_SETTING)) {
 				ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.5f);
 				ShowTableOption();
 				ImGui::PopItemWidth();
 				ImGui::EndTabItem();
 			}
 
-			if (ImGui::BeginTabItem(u8"Hotkey 설정")) {
+			if (ImGui::BeginTabItem(STR_OPTION_TAB_HOTKEY_SETTING)) {
 				// 귀찮구만
 				ShowHotkeySetting();
 				ImGui::EndTabItem();
@@ -211,6 +215,7 @@ VOID UiOption::Init() {
 BOOL UiOption::GetOption() {
 
 	tinyxml2::XMLDocument doc;
+	ImGuiStyle& style = ImGui::GetStyle();
 
 	if (doc.LoadFile(OPTION_FILE_NAME))
 		return FALSE;
@@ -225,19 +230,8 @@ BOOL UiOption::GetOption() {
 
 	if (!ele)
 		return FALSE;
-	
-	auto attr = ele->FindAttribute("StyleIndex");
 
-	if (attr == nullptr)
-		return FALSE;
-
-	attr->QueryIntValue(&_styleIndex);
-
-#if DEBUG_READ_XML == 1
-	Log::WriteLog(const_cast<LPTSTR>(_T("Read StyleIndex = %d")), _styleIndex);
-#endif
-
-	attr = ele->FindAttribute("GlobalScale");
+	auto attr = ele->FindAttribute("GlobalScale");
 
 	if (attr == nullptr)
 		return FALSE;
@@ -256,7 +250,7 @@ BOOL UiOption::GetOption() {
 	attr->QueryFloatValue(&_tableFontScale);
 
 #if DEBUG_READ_XML == 1
-	Log::WriteLog(const_cast<LPTSTR>(_T("Read TableFontScale = %.1f")), _fontScale);
+	Log::WriteLog(const_cast<LPTSTR>(_T("Read TableFontScale = %.1f")), _tableFontScale);
 #endif
 
 	attr = ele->FindAttribute("ColumnScale");
@@ -288,39 +282,176 @@ BOOL UiOption::GetOption() {
 
 	attr->QueryIntValue(&_is1M);
 
+
+
+	attr = ele->FindAttribute("IsSoloMode");
+	if (attr == nullptr)
+		return FALSE;
+	attr->QueryIntValue(&_isSoloMode);
+
+	attr = ele->FindAttribute("DoHideName");
+	if (attr == nullptr)
+		return FALSE;
+	attr->QueryIntValue(&_hideName);
+
+	attr = ele->FindAttribute("IsTopMost");
+	if (attr == nullptr)
+		return FALSE;
+	attr->QueryIntValue(&_isTopMost);
+
 #if DEBUG_READ_XML == 1
 	Log::WriteLog(const_cast<LPTSTR>(_T("Read 1M = %d")), _is1M);
 #endif
 
-	attr = ele->FindAttribute("Auto");
+	attr = ele->FindAttribute("CellPaddingX");
 
 	if (attr == nullptr)
 		return FALSE;
 
-	attr->QueryIntValue(&_autoSize);
+	attr->QueryFloatValue(&_cellPadding.x);
+	style.CellPadding.x = _cellPadding.x;
 
 #if DEBUG_READ_XML == 1
-	Log::WriteLog(const_cast<LPTSTR>(_T("Read Auto = %d")), _autoSize);
+	Log::WriteLog(const_cast<LPTSTR>(_T("Read CellPadding X = %f")), _cellPadding.x);
 #endif
 
-	ele = ele->NextSiblingElement("Column");
+	attr = ele->FindAttribute("CellPaddingY");
 
-	if (!ele)
+	if (attr == nullptr)
 		return FALSE;
 
-	const char column_name[8][16] = { {"NAME"}, {"DPS"}, {"DPER"}, {"DAMAGE"}, {"HIT"}, {"CRIT"}, {"HITS"}, {"MAXC"} };
+	attr->QueryFloatValue(&_cellPadding.y);
+	style.CellPadding.y = _cellPadding.y;
 
-	for (INT i = 0; i < 8; i++) {
-		attr = ele->FindAttribute(column_name[i]);
+#if DEBUG_READ_XML == 1
+	Log::WriteLog(const_cast<LPTSTR>(_T("Read CellPadding Y = %f")), _cellPadding.y);
+#endif
+
+	attr = ele->FindAttribute("BorderSize");
+
+	if (attr == nullptr)
+		return FALSE;
+
+	attr->QueryFloatValue(&_windowBorderSize);
+	style.WindowBorderSize = _windowBorderSize;
+
+#if DEBUG_READ_XML == 1
+	Log::WriteLog(const_cast<LPTSTR>(_T("Read WindowBorderSize = %f")), _windowBorderSize);
+#endif
+
+	attr = ele->FindAttribute("WindowWidth");
+
+	if (attr == nullptr)
+		return FALSE;
+
+	attr->QueryFloatValue(&_windowWidth);
+
+
+#if DEBUG_READ_XML == 1
+	Log::WriteLog(const_cast<LPTSTR>(_T("Read WindowWidth = %f")), _windowWidth);
+#endif
+
+	attr = ele->FindAttribute("RefreshTime");
+
+	if (attr == nullptr)
+		return FALSE;
+
+	attr->QueryFloatValue(&_refreshTime);
+
+#if DEBUG_READ_XML == 1
+		Log::WriteLog(const_cast<LPTSTR>(_T("Read RefreshTime = %f")), _refreshTime);
+#endif
+		attr = ele->FindAttribute("WinPosX");
 
 		if (attr == nullptr)
 			return FALSE;
 
-		attr->QueryFloatValue(&_columnWidth[i]);
-	}
+		FLOAT winX, winY;
+
+		attr->QueryFloatValue(&winX);
+
+		attr = ele->FindAttribute("WinPosY");
+
+		if (attr == nullptr)
+			return FALSE;
+
+		attr->QueryFloatValue(&winY);
+
+		//SetWindowPos(UIWINDOW.GetHWND(), HWND_NOTOPMOST, winX, winY, 0, 0, SWP_NOSIZE);
+		SetWindowPos(UIWINDOW.GetHWND(), HWND_TOPMOST, winX, winY, 0, 0, SWP_NOSIZE);
 
 #if DEBUG_READ_XML == 1
-	Log::WriteLog(const_cast<LPTSTR>(_T("Read Column Width, NAME = %f, DPS = %f, D%% = %f, DAMAGE = %f, HIT = %f, CRIT = %f, HITS = %f, MAXC = %f")), _columnWidth[0], _columnWidth[1], _columnWidth[2], _columnWidth[3], _columnWidth[4], _columnWidth[5], _columnWidth[6], _columnWidth[7]);
+		Log::WriteLog(const_cast<LPTSTR>(_T("Read WinPos(X,Y) = (%f, %f)")), winX, winY);
+#endif
+
+	// Text Color
+	ele = ele->NextSiblingElement("TextColor");
+
+	if (!ele)
+		return FALSE;
+
+	const char name[4][8] = { {"r"}, {"g"}, {"b"}, {"a"} };
+
+	for (int i = 0; i < 4; i++) {
+		attr = ele->FindAttribute(name[i]);
+
+		if (attr == nullptr)
+			return FALSE;
+
+		switch (i) {
+		case 0:
+			attr->QueryFloatValue(&_textColor.x);
+			break;
+		case 1:
+			attr->QueryFloatValue(&_textColor.y);
+			break;
+		case 2:
+			attr->QueryFloatValue(&_textColor.z);
+			break;
+		case 3:
+			attr->QueryFloatValue(&_textColor.w);
+			break;
+		}
+	}
+
+	style.Colors[0] = _textColor;
+
+#if DEBUG_READ_XML == 1
+	Log::WriteLog(const_cast<LPTSTR>(_T("Read TextColor = %.1f, %.1f, %.1f, %.1f")), _textColor.x, _textColor.y, _textColor.z, _textColor.w);
+#endif
+
+	// WindowBg Color
+	ele = ele->NextSiblingElement("WindowBgColor");
+
+	if (!ele)
+		return FALSE;
+
+	for (int i = 0; i < 4; i++) {
+		attr = ele->FindAttribute(name[i]);
+
+		if (attr == nullptr)
+			return FALSE;
+
+		switch (i) {
+		case 0:
+			attr->QueryFloatValue(&_windowBg.x);
+			break;
+		case 1:
+			attr->QueryFloatValue(&_windowBg.y);
+			break;
+		case 2:
+			attr->QueryFloatValue(&_windowBg.z);
+			break;
+		case 3:
+			attr->QueryFloatValue(&_windowBg.w);
+			break;
+		}
+	}
+
+	style.Colors[2] = _windowBg;
+
+#if DEBUG_READ_XML == 1
+	Log::WriteLog(const_cast<LPTSTR>(_T("Read WindowBgColor = %.1f, %.1f, %.1f, %.1f")), _windowBg.x, _windowBg.y, _windowBg.z, _windowBg.w);
 #endif
 
 	// Outline Color
@@ -328,8 +459,6 @@ BOOL UiOption::GetOption() {
 		
 	if (!ele)
 		return FALSE;
-
-	const char name[4][8] = { {"r"}, {"g"}, {"b"}, {"a"} };
 
 	for (int i = 0; i < 4; i++) {
 		attr = ele->FindAttribute(name[i]);
@@ -511,25 +640,40 @@ BOOL UiOption::SaveOption() {
 	tinyxml2::XMLElement* option = doc.NewElement("Option");
 	root->LinkEndChild(option);
 
-	option->SetAttribute("StyleIndex", _styleIndex);
+	option->SetAttribute("IsTopMost", _isTopMost);
+
 	option->SetAttribute("GlobalScale", _fontScale);
 	option->SetAttribute("TableScale", _tableFontScale);
 	option->SetAttribute("ColumnScale", _columnFontScale);
 	option->SetAttribute("K", _is1K);
 	option->SetAttribute("M", _is1M);
-	option->SetAttribute("Auto", _autoSize);
+	option->SetAttribute("IsSoloMode", _isSoloMode);
+	option->SetAttribute("DoHideName", _hideName);
+	option->SetAttribute("CellPaddingX", _cellPadding.x);
+	option->SetAttribute("CellPaddingY", _cellPadding.y);
+	option->SetAttribute("BorderSize", _windowBorderSize);
+	option->SetAttribute("WindowWidth", _windowWidth);
+	option->SetAttribute("RefreshTime", _refreshTime);
 
-	tinyxml2::XMLElement* column = doc.NewElement("Column");
-	root->LinkEndChild(column);
 
-	column->SetAttribute("NAME", _columnWidth[0]);
-	column->SetAttribute("DPS", _columnWidth[1]);
-	column->SetAttribute("DPER", _columnWidth[2]);
-	column->SetAttribute("DAMAGE", _columnWidth[3]);
-	column->SetAttribute("HIT", _columnWidth[4]);
-	column->SetAttribute("CRIT", _columnWidth[5]);
-	column->SetAttribute("HITS", _columnWidth[6]);
-	column->SetAttribute("MAXC", _columnWidth[7]);
+	RECT rect;
+	GetWindowRect(UIWINDOW.GetHWND(), &rect);
+	option->SetAttribute("WinPosX", (FLOAT)rect.left);
+	option->SetAttribute("WinPosY", (FLOAT)rect.top);
+
+	tinyxml2::XMLElement* text_color = doc.NewElement("TextColor");
+	root->LinkEndChild(text_color);
+	text_color->SetAttribute("r", _textColor.x);
+	text_color->SetAttribute("g", _textColor.y);
+	text_color->SetAttribute("b", _textColor.z);
+	text_color->SetAttribute("a", _textColor.w);
+
+	tinyxml2::XMLElement* windowbg_color = doc.NewElement("WindowBgColor");
+	root->LinkEndChild(windowbg_color);
+	windowbg_color->SetAttribute("r", _windowBg.x);
+	windowbg_color->SetAttribute("g", _windowBg.y);
+	windowbg_color->SetAttribute("b", _windowBg.z);
+	windowbg_color->SetAttribute("a", _windowBg.w);
 	
 	tinyxml2::XMLElement* outline_color = doc.NewElement("OutlineColor");
 	root->LinkEndChild(outline_color);
@@ -590,30 +734,29 @@ BOOL UiOption::SetBasicOption() {
 	ImGui::StyleColorsDark();
 
 	ImGuiStyle& style = ImGui::GetStyle();
-
-	_fontScale = 1; _columnFontScale = 1; _tableFontScale = 1; _styleIndex = 1;
-
-	for (int i = 0; i < 10; i++)
-		_jobColor[i] = _jobBasicColor[i];
+	ImGuiIO& io = ImGui::GetIO();
 
 	_outlineColor = ImVec4(ImGui::ColorConvertU32ToFloat4(ImColor(0, 0, 0, 255)));
 	_activeColor[0] = style.Colors[10];
 	_activeColor[1] = style.Colors[11];
+	_textColor = style.Colors[0];
+	_windowBg = style.Colors[2];
 
-	_is1K = FALSE;
-	_is1M = FALSE;
-	_autoSize = TRUE;
-
-	for (INT i = 0; i < 8; i++)
-		_columnWidth[i] = 100;
-	
 	HOTKEY.InsertHotkeyToogle(DIK_LCONTROL, DIK_END, -1);
 	HOTKEY.InsertHotkeyStop(DIK_LCONTROL, DIK_DELETE, -1);
 
 	Helper();
+	PLAYERTABLE.ResizeTalbe();
 	_open = TRUE;
 
 	return TRUE;
+}
+
+BOOL UiOption::ToggleTopMost() {
+
+	_isTopMost = _isTopMost ? false : true;
+	
+	return SaveOption();
 }
 
 const ImU32& UiOption::GetJobColor(UINT index) {
@@ -656,6 +799,20 @@ const BOOL& UiOption::is1M() {
 	return _is1M;
 }
 
+const BOOL& UiOption::isSoloMode(){
+	return _isSoloMode;
+}
+
+const BOOL& UiOption::doHideName()
+{
+	return _hideName;
+}
+
+const BOOL& UiOption::isTopMost()
+{
+	return _isTopMost;
+}
+
 VOID UiOption::Update() {
 
 	ImFont* font = ImGui::GetFont();
@@ -674,64 +831,32 @@ const BOOL& UiOption::isOption() {
 	return _open;
 }
 
-const BOOL& UiOption::isAutoSize() {
-	return _autoSize;
+const FLOAT& UiOption::GetFramerate() {
+	return _framerate;
 }
 
-const FLOAT& UiOption::GetColumnNameSize() { 
-	return _columnWidth[0];
-}
-const FLOAT& UiOption::GetColumnDpsSize(){
-	return _columnWidth[1];
-}
-const FLOAT& UiOption::GetColumnDperSize(){
-	return _columnWidth[2];
-}
-const FLOAT& UiOption::GetColumnDamageSize(){
-	return _columnWidth[3];
-}
-const FLOAT& UiOption::GetColumnHitSize(){
-	return _columnWidth[4];
-}
-const FLOAT& UiOption::GetColumnCritSize(){
-	return _columnWidth[5];
-}
-const FLOAT& UiOption::GetColumnHitsSize(){
-	return _columnWidth[6];
-}
-const FLOAT& UiOption::GetColumnMaxcSize(){
-	return _columnWidth[7];
+VOID UiOption::SetFramerate(UINT i) {
+
+	if (i < 0)
+		i = 0;
+	else if (i > 4)
+		i = 4;
+
+	_framerate = i;
 }
 
-VOID UiOption::SetColumnNameSize(FLOAT size) {
-	_columnWidth[0] = size;
-}
-VOID UiOption::SetColumnDpsSize(FLOAT size) {
-	_columnWidth[1] = size;
-}
-VOID UiOption::SetColumnDperSize(FLOAT size) {
-	_columnWidth[2] = size;
-}
-VOID UiOption::SetColumnDamageSize(FLOAT size) {
-	_columnWidth[3] = size;
-}
-VOID UiOption::SetColumnHitSize(FLOAT size) {
-	_columnWidth[4] = size;
-}
-VOID UiOption::SetColumnCritSize(FLOAT size) {
-	_columnWidth[5] = size;
-}
-VOID UiOption::SetColumnHitsSize(FLOAT size) {
-	_columnWidth[6] = size;
-}
-VOID UiOption::SetColumnMaxcSize(FLOAT size) {
-	_columnWidth[7] = size;
+const ImVec4& UiOption::GetWindowBGColor() {
+	return _windowBg;
 }
 
-FLOAT& UiOption::operator[](INT index) {
+const FLOAT& UiOption::GetWindowWidth() {
+	return _windowWidth;
+}
 
-	if (index < 0 || index > 7)
-		assert(index < 0 || index > 7);
+VOID UiOption::SetWindowWidth(const FLOAT& width) {
+	_windowWidth = width;
+}
 
-	return _columnWidth[index];
+const FLOAT& UiOption::GetRefreshTime() {
+	return _refreshTime;
 }

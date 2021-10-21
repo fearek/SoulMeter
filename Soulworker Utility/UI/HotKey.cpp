@@ -173,9 +173,9 @@ VOID HotKey::Update() {
 
 VOID HotKey::InsertHotkeyToogle(INT key1, INT key2, INT key3) {
 	
-	HOTKEYCALLBACK callback = bind(&SWDamageMeter::Toggle, &DAMAGEMETER);
+//	HOTKEYCALLBACK callback = bind(&SWDamageMeter::Toggle, &DAMAGEMETER);
 
-	_hotkeys.push_back(new AutoHotKey(key1, key2, key3, "Toogle", 1, &callback));
+//	_hotkeys.push_back(new AutoHotKey(key1, key2, key3, "Toogle", 1, &callback));
 
 }
 

@@ -2,7 +2,7 @@
 
 #define WINDIVERT MyWinDivert::getInstance()
 
-#define WINDIVERT_FILTER_RULE "tcp.SrcPort == 10200"
+#define WINDIVERT_FILTER_RULE "tcp.SrcPort == 10200 or tcp.DstPort == 10200"
 
 #define DEBUG_DIVERT_ALL 0
 #define DEBUG_DIVERT_IP 0

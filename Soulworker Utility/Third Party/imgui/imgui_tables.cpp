@@ -118,6 +118,8 @@ Index of this file:
 // - Scrolling tables with a known outer size can be clipped earlier as BeginTable() will return false.
 //-----------------------------------------------------------------------------
 
+#include ".\Language\Region.h"
+
 #if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_WARNINGS)
 #define _CRT_SECURE_NO_WARNINGS
 #endif
@@ -2785,13 +2787,13 @@ void ImGui::TableDrawContextMenu(ImGuiTable* table)
         if (column != NULL)
         {
             const bool can_resize = !(column->Flags & ImGuiTableColumnFlags_NoResize) && column->IsEnabled;
-            if (MenuItem("Size column to fit", NULL, false, can_resize))
+            if (MenuItem(STR_MENU_FIT_COLUMN, NULL, false, can_resize))
                 TableSetColumnWidthAutoSingle(table, column_n);
         }
 
         const char* size_all_desc;
         if (table->ColumnsEnabledFixedCount == table->ColumnsEnabledCount)
-            size_all_desc = "Size all columns to fit###SizeAll";        // All fixed
+            size_all_desc = STR_MENU_FIT_ALL_COLUMN;        // All fixed
         else if (table->ColumnsEnabledFixedCount == 0)
             size_all_desc = "Size all columns to default###SizeAll";    // All stretch
         else
@@ -2804,7 +2806,7 @@ void ImGui::TableDrawContextMenu(ImGuiTable* table)
     // Ordering
     if (table->Flags & ImGuiTableFlags_Reorderable)
     {
-        if (MenuItem("Reset order", NULL, false, !table->IsDefaultDisplayOrder))
+        if (MenuItem(STR_MENU_RESET_ORDER, NULL, false, !table->IsDefaultDisplayOrder))
             table->IsResetDisplayOrderRequest = true;
         want_separator = true;
     }

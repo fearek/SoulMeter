@@ -15,6 +15,7 @@ LPTOP_LEVEL_EXCEPTION_FILTER PreviousExceptionFilter = NULL;
 // UnHandled Exception이 발생했을 때 넘어오는 콜백
 LONG WINAPI UnHandledExceptionFilter(struct _EXCEPTION_POINTERS* exceptionInfo)
 {
+    printf("Unhandled exception");
     HMODULE DllHandle = NULL;
 
     // Windows 2000 이전에는 따로 DBGHELP를 배포해서 설정해 주어야 한다.

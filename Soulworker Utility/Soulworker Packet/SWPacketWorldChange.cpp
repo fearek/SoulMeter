@@ -9,6 +9,9 @@ SWPacketWorldChange::SWPacketWorldChange(SWHEADER* swheader, BYTE* data) : SWPac
 
 VOID SWPacketWorldChange::Do() {
 	
+	// 재시작시 자동 리셋
+	DAMAGEMETER.Clear();
+
 	SWPACKETWORLDCHANGE* world_change = (SWPACKETWORLDCHANGE*)(_data + sizeof(SWHEADER));
 
 	DAMAGEMETER.SetMyID(world_change->_id);
@@ -24,5 +27,5 @@ VOID SWPacketWorldChange::Log() {
 VOID SWPacketWorldChange::Debug() {
 	SWPACKETWORLDCHANGE* world_change = (SWPACKETWORLDCHANGE*)(_data + sizeof(SWHEADER));
 
-	Log::WriteLogA(const_cast<CHAR*>("[DEBUG] [World Change = %04x] [MyID = %08x]"), world_change->_worldID, world_change->_id);
+	//Log::WriteLogA(const_cast<CHAR*>("[DEBUG] [World Change = %04x] [MyID = %08x]"), world_change->_worldID, world_change->_id);
 }

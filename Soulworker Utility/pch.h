@@ -25,6 +25,8 @@
 #include "imgui\backends\imgui_impl_win32.h"
 #include "imgui\backends\imgui_impl_dx11.h"
 #include "imgui\Custom.h"
+#include "imgui\implot.h"
+#include "imgui\implot_internal.h"
 
 // tinyxml2
 #include "tinyxml2\tinyxml2.h"
@@ -32,9 +34,6 @@
 // DirectX
 #include <d3d11.h>
 #include <dinput.h>
-
-// NPcap
-#include "npcap\Include\pcap.h"
 
 // WinDivert
 #include "Windivert\include\windivert.h"

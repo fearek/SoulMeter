@@ -10,10 +10,11 @@ private:
 	UINT64 _critDamage;
 	USHORT _hitCount;
 	USHORT _critHitCount;
+	USHORT _skillCasts;
 	CHAR _name[SKILL_NAME_LEN];
 
 protected:
-	SWDamageSkill() : _id(0), _damage(0), _critDamage(0), _hitCount(0), _critHitCount(0) { }
+	SWDamageSkill() : _id(0), _damage(0), _critDamage(0), _hitCount(0), _critHitCount(0), _skillCasts(0) { }
 
 public:
 	SWDamageSkill(UINT32 id, UINT64 damage, UINT64 critDamage, USHORT hitCount, USHORT critHitCount);
@@ -26,6 +27,7 @@ public:
 	UINT64 GetCritDamage();
 	USHORT GetHitCount();
 	USHORT GetCritHitCount();
+	USHORT GetSkillUsed();
 	CHAR* GetName();
 	VOID AddDamage(UINT64 damage, UINT64 critDamage, USHORT hitCount, USHORT critHitCount);
 };

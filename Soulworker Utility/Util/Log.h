@@ -142,4 +142,28 @@ public:
 
         return TRUE;
     }
+
+    static VOID MyLog(const _TCHAR *data,...) {
+        va_list ap;
+        TCHAR Buffer[MAX_BUFFER_LENGTH] = { 0, };
+
+        va_start(ap, data);
+        _vstprintf_s(Buffer, data, ap);
+        va_end(ap);
+
+        OutputDebugString(Buffer);
+        ZeroMemory(Buffer, sizeof(Buffer));
+    }
+
+    static VOID MyLog(const char* data, ...) {
+        va_list ap;
+        CHAR Log[MAX_BUFFER_LENGTH] = { 0, };
+
+        va_start(ap, data);
+        vsprintf_s(Log, data, ap);
+        va_end(ap);
+
+        OutputDebugStringA(Log);
+        ZeroMemory(Log, sizeof(Log));
+    }
 };
