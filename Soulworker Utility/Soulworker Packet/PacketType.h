@@ -5,6 +5,7 @@
 
 /* 0x03 */
 #include ".\Soulworker Packet\SWPacketStatChange.h"
+#include ".\Soulworker Packet\SWPacketDead.h"
 /* 0x04 */
 #include ".\Soulworker Packet\SWPacketWorldChange.h"
 #include ".\Soulworker Packet\SWPacketMazeStart.h"
@@ -18,7 +19,7 @@
 // cancelwithmove
 
 /* 0x06 */
-// Evade
+// DODGE
 #include ".\Soulworker Packet\SWPacketUseSkill.h"
 #include ".\Soulworker Packet\SWPacketOtherUseSkill.h"
 #include ".\Soulworker Packet\SWPacketDamage.h"
@@ -53,6 +54,7 @@
 // SWSPacket
 #include ".\Soulworker Packet\SWSPacket.h"
 #include ".\Soulworker Packet\SWSPacketMySkillUsed.h"
+#include ".\Soulworker Packet\SWSPacketMyDodgeUsed.h"
 
 // 대충 여기에 다 집어놓고 packetType만 include해서 쓰면 됨
 
@@ -62,6 +64,7 @@ enum OPcode {
 	HEARTBEAT = 0x0106,
 
 	STATCHANGE = 0x0334,
+	DEAD = 0x0341,
 
 	WORLDCHANGE = 0x0402,
 	MAZESTART = 0x0408,
@@ -73,7 +76,7 @@ enum OPcode {
 	JUMP = 0x0506,
 	CANCEL_WITHMOVE = 0x0511,
  
-	EVADE = 0x0607, // 회피,다운후구르기, 공중피격후 회피에 사용됨?
+	DODGE = 0x0607, // 회피,다운후구르기, 공중피격후 회피에 사용됨?
 	USESKILL = 0x0609,
 	OTHER_USESKILL = 0x0610,
 	DAMAGE = 0x0613,

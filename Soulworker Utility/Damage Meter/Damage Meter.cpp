@@ -123,6 +123,7 @@ VOID SWDamageMeter::AddSkillUsed(UINT32 playerId, UINT32 skillId)
 	if (_mazeEnd || GetTime() == 0.0f)
 		return;
 
+	// counts only skill that can proc enlighten (example : not right click)
 	bool canProcEnlighten = false;
 	if (skillId >= 10000000 && skillId < 1000000000) {
 		if ((skillId % 100000) / 10000 == 0) {
@@ -146,6 +147,44 @@ VOID SWDamageMeter::AddSkillUsed(UINT32 playerId, UINT32 skillId)
 	newPlayer->AddSkillUsed(skillId);
 	_playerInfo.push_back(newPlayer);
 
+}
+
+VOID SWDamageMeter::AddDodgeUsed(UINT32 playerId)
+{
+	if (_mazeEnd || GetTime() == 0.0f)
+		return;
+
+	auto itr = _playerInfo.begin();
+
+	for (; itr != _playerInfo.end(); itr++) {
+		if (playerId == (*itr)->GetID()) {
+			(*itr)->AddDodgeUsed();
+			return;
+		}
+	}
+
+	SWDamagePlayer* newPlayer = new SWDamagePlayer(playerId);
+	newPlayer->AddDodgeUsed();
+	_playerInfo.push_back(newPlayer);
+}
+
+VOID SWDamageMeter::AddDeath(UINT32 playerId)
+{
+	if (_mazeEnd || GetTime() == 0.0f)
+		return;
+
+	auto itr = _playerInfo.begin();
+
+	for (; itr != _playerInfo.end(); itr++) {
+		if (playerId == (*itr)->GetID()) {
+			(*itr)->AddDeathCount();
+			return;
+		}
+	}
+
+	SWDamagePlayer* newPlayer = new SWDamagePlayer(playerId);
+	newPlayer->AddDeathCount();
+	_playerInfo.push_back(newPlayer);
 }
 
 VOID SWDamageMeter::BuffIn(UINT32 playerId, USHORT buffId, BYTE stack, UINT32 giverId)

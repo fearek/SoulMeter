@@ -135,7 +135,7 @@ VOID SpecificInformation::UpdateSkillTable() {
 		ImGui::TableSetupColumn(STR_TABLE_TOTAL_HIT, ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_DefaultHide, -1);
 		ImGui::TableSetupColumn(STR_TABLE_CRIT_RATE, ImGuiTableColumnFlags_WidthFixed | ImGuiTableColumnFlags_DefaultHide, -1);
 		ImGui::TableSetupColumn(STR_TABLE_HIT_PER_SECOND, ImGuiTableColumnFlags_WidthFixed, -1);
-		ImGui::TableSetupColumn(STR_TABLE_SKILL_PER_SECOND, ImGuiTableColumnFlags_WidthFixed, -1);
+	// ImGui::TableSetupColumn(STR_TABLE_SKILL_PER_SECOND, ImGuiTableColumnFlags_WidthFixed, -1);
 		ImGui::TableHeadersRow();
 
 		UINT64 max_Damage = 1;

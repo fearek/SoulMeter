@@ -81,7 +81,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <TargetName>SoulMeter 1.2.5a</TargetName>
+    <TargetName>SoulMeter 1.2.6a</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -195,6 +195,7 @@
     <ClInclude Include="Soulworker Packet\SWPacketChat.h" />
     <ClInclude Include="Soulworker Packet\SWPacketCooldown.h" />
     <ClInclude Include="Soulworker Packet\SWPacketDamage.h" />
+    <ClInclude Include="Soulworker Packet\SWPacketDead.h" />
     <ClInclude Include="Soulworker Packet\SWPacketGestureUsed.h" />
     <ClInclude Include="Soulworker Packet\SWPacketHeartbeat.h" />
     <ClInclude Include="Soulworker Packet\SWPacketMaker.h" />
@@ -213,6 +214,7 @@
     <ClInclude Include="Soulworker Packet\SWPacketWorldChange.h" />
     <ClInclude Include="Soulworker Packet\SWSPacket.h" />
     <ClInclude Include="Soulworker Packet\SWSPacketMaker.h" />
+    <ClInclude Include="Soulworker Packet\SWSPacketMyDodgeUsed.h" />
     <ClInclude Include="Soulworker Packet\SWSPacketMySkillUsed.h" />
     <ClInclude Include="Third Party\imgui\backends\imgui_impl_dx11.h" />
     <ClInclude Include="Third Party\imgui\backends\imgui_impl_win32.h" />
@@ -261,6 +263,7 @@
     <ClCompile Include="Soulworker Packet\SWPacketChat.cpp" />
     <ClCompile Include="Soulworker Packet\SWPacketCooldown.cpp" />
     <ClCompile Include="Soulworker Packet\SWPacketDamage.cpp" />
+    <ClCompile Include="Soulworker Packet\SWPacketDead.cpp" />
     <ClCompile Include="Soulworker Packet\SWPacketGestureUsed.cpp" />
     <ClCompile Include="Soulworker Packet\SWPacketHeartbeat.cpp" />
     <ClCompile Include="Soulworker Packet\SWPacketMaker.cpp" />
@@ -279,6 +282,7 @@
     <ClCompile Include="Soulworker Packet\SWPacketWorldChange.cpp" />
     <ClCompile Include="Soulworker Packet\SWSPacket.cpp" />
     <ClCompile Include="Soulworker Packet\SWSPacketMaker.cpp" />
+    <ClCompile Include="Soulworker Packet\SWSPacketMyDodgeUsed.cpp" />
     <ClCompile Include="Soulworker Packet\SWSPacketMySkillUsed.cpp" />
     <ClCompile Include="Third Party\imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="Third Party\imgui\backends\imgui_impl_win32.cpp" />

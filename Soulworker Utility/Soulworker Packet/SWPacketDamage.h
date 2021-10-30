@@ -6,30 +6,30 @@
 #pragma pack(push, 1)
 
 typedef struct _SWPACKETDAMAGE_MONSTER {
-	UINT32 _monsterID;
-	BYTE _unknown01;
-	BYTE _damageType;
-	UINT32 _totalDMG;
-	UINT32 _soulstoneDMG;
-	UINT32 _remainHP;
-	FLOAT _unknownF1;
-	FLOAT _unknownF2;
-	FLOAT _unknownF3;
+	UINT32 _monsterID; // 4
+	BYTE _unknown01; // 5
+	BYTE _damageType; // 6
+	UINT32 _totalDMG; // 10
+	UINT32 _soulstoneDMG; // 14
+	UINT32 _remainHP; // 18
+	FLOAT _unknownF1; // 22
+	FLOAT _unknownF2; // 26
+	FLOAT _unknownF3; // 30
 #ifdef SERVER_KOREA
-	BYTE _unknown02[18];
+	BYTE _unknown02[22]; // sum 52 // previous value 18
 #endif
 #ifdef SERVER_STEAM
-	BYTE _unknown02[10];//원래 22
+	BYTE _unknown02[10];//previous value 22
 #endif
 }SWPACKETDAMAGE_MONSTER;
 
 typedef struct _SWPACKETDAMAGE_PLAYER {
-	UINT32 _playerID;
-	BYTE _unknown01[20];
-	UINT32 _skillID;
-	BYTE _unknown02[2];
-	USHORT _maxCombo;
-	BYTE _unknown03[2];
+	UINT32 _playerID; // 4
+	BYTE _unknown01[20]; // 24
+	UINT32 _skillID; // 28
+	BYTE _unknown02[2]; // 30
+	USHORT _maxCombo; // 32
+	BYTE _unknown03[2]; // 34
 }SWPACKETDAMAGE_PLAYER;
 	
 #pragma pack(pop)

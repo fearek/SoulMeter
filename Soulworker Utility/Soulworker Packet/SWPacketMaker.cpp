@@ -181,6 +181,9 @@ VOID SWPacketMaker::CreateSWPacket(IPv4Packet* packet) {
 		case OPcode::STATCHANGE:
 			swpacket = new SWPacketStatChange(swheader, data);
 			break;
+		case OPcode::DEAD:
+			swpacket = new SWPacketDead(swheader, data);
+			break;
 
 			/*0x04*/
 		case OPcode::WORLDCHANGE:
@@ -208,8 +211,8 @@ VOID SWPacketMaker::CreateSWPacket(IPv4Packet* packet) {
 			break;
 
 			/*0x06 Combat*/
-		case OPcode::EVADE:
-			break;
+		//case OPcode::EVADE:
+		//	break;
 		case OPcode::USESKILL:
 			swpacket = new SWPacketUseSkill(swheader, data);
 			break;

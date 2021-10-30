@@ -29,9 +29,15 @@ VOID SWPacketDamage::AttackOfMonster()
 }
 
 VOID SWPacketDamage::Do() {
+
 	BYTE monsterNum = *(_data + sizeof(SWHEADER));
 	SWPACKETDAMAGE_PLAYER* player = (SWPACKETDAMAGE_PLAYER*)((_data + sizeof(_SWPACKETDAMAGE_MONSTER) * monsterNum) + sizeof(SWHEADER) + 1);
 
+	if (player->_playerID == NULL) {
+		player->_playerID = 0;
+	}
+
+	// If attacker is not a player, then check it is summoned object and get summoner's id for checking is summoner a player
 	// 플레이어가 아닌 개체의 데미지이면 플레이어가 소환한 개체인지 확인 및 플레이어가 누군지 받아옴
 	if (!DAMAGEMETER.CheckPlayer(player->_playerID)) {
 		UINT32 owner_id = 0xffffffff;
@@ -56,9 +62,8 @@ VOID SWPacketDamage::Do() {
 		//	Log::WriteLog(const_cast<LPTSTR>(_T("[PLAYER] [DamageType = %d]")), monster->_damageType);
 			//DAMAGEMETER.AddDamage(player->_playerID, monster->_totalDMG, monster->_criticalDMG, player->_maxCombo != 0 ? 1 : 0, player->_maxCombo != 0 ? CheckCritical(monster->_damageType) : 0, player->_maxCombo, monster->_monsterID, player->_skillID);
 
-		if (player->_playerID == NULL) {
-			player->_playerID = 0;
-		}
+	//		Log::WriteLogA(const_cast<CHAR*>("[DEBUG] [MonsterNum = %d] [PlayerID = %08x] [CheckPlayer = %d] [GetOwnerID = %08x] [OwnerCheckPlayer = %d]"), monsterNum, player->_playerID, DAMAGEMETER.CheckPlayer(player->_playerID), DAMAGEMETER.GetOwnerID(player->_playerID), DAMAGEMETER.CheckPlayer(DAMAGEMETER.GetOwnerID(player->_playerID)));
+
 
 		DAMAGEMETER.AddDamage(player->_playerID, monster->_totalDMG, monster->_soulstoneDMG, (SWPACKETDAMAGE_DAMAGETYPE)(monster->_damageType), player->_maxCombo, monster->_monsterID, player->_skillID);
 
@@ -88,6 +93,7 @@ VOID SWPacketDamage::Debug() {
 	SWPACKETDAMAGE_PLAYER* player = (SWPACKETDAMAGE_PLAYER*)((_data + sizeof(_SWPACKETDAMAGE_MONSTER) * monsterNum) + sizeof(SWHEADER) + 1);
 
 	//Log::WriteLogA(const_cast<CHAR*>("[DEBUG] [MonsterNum = %d] [PlayerID = %08x] [CheckPlayer = %d] [GetOwnerID = %08x] [OwnerCheckPlayer = %d]"), monsterNum, player->_playerID, DAMAGEMETER.CheckPlayer(player->_playerID), DAMAGEMETER.GetOwnerID(player->_playerID), DAMAGEMETER.CheckPlayer(DAMAGEMETER.GetOwnerID(player->_playerID)));
+	//Log::MyLog("1234");
 
 	//if (DAMAGEMETER.CheckPlayer(player->_playerID)) {
 	//	return;

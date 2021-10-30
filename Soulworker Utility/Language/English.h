@@ -52,6 +52,7 @@
 #define STR_TABLE_GIGA_ENLIGHTEN u8"Giga.Enli"
 #define STR_TABLE_TERA_ENLIGHTEN u8"Tera.Enli"
 #define STR_TABLE_LOSED_HP u8"Losed HP"
+#define STR_TABLE_DODGE_COUNT u8"Dodge"
 
 #define STR_TABLE_DURATION u8"DURATION" // buff,debuff
 

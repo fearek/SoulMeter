@@ -327,6 +327,12 @@
     <ClInclude Include="Language\Chineses.h">
       <Filter>Language</Filter>
     </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWSPacketMyDodgeUsed.h">
+      <Filter>SWSPacket\0x06 Combat</Filter>
+    </ClInclude>
+    <ClInclude Include="Soulworker Packet\SWPacketDead.h">
+      <Filter>SWPacket\Packet\0x03</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -523,6 +529,12 @@
     </ClCompile>
     <ClCompile Include="Soulworker Packet\SWPacketMonsterKilled.cpp">
       <Filter>SWPacket\Packet\0x17</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWSPacketMyDodgeUsed.cpp">
+      <Filter>SWSPacket\0x06 Combat</Filter>
+    </ClCompile>
+    <ClCompile Include="Soulworker Packet\SWPacketDead.cpp">
+      <Filter>SWPacket\Packet\0x03</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

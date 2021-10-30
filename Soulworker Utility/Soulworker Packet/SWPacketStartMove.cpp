@@ -18,8 +18,8 @@ VOID SWPacketStartMove::Log() {
 
 VOID SWPacketStartMove::Debug() {
 
-	USHORT op = _byteswap_ushort(_swheader->_op);
-	_SWPACKETSTARTMOVE* move = (_SWPACKETSTARTMOVE*)(_data + sizeof(SWHEADER));
+	//USHORT op = _byteswap_ushort(_swheader->_op);
+	//_SWPACKETSTARTMOVE* move = (_SWPACKETSTARTMOVE*)(_data + sizeof(SWHEADER));
 
 	//if (_swheader->_op != 0x3403) {
 	//	return;
@@ -67,7 +67,7 @@ VOID SWPacketStartMove::Debug() {
 	//for (int i = 0; i < sizeof(move->_unknown05); i++) {
 	//	Log::MyLog(_T("%02x "), move->_unknown05[i]);
 	//}
-
+	//Log::MyLog(_T(" / \n"));
 
 	return;
 }

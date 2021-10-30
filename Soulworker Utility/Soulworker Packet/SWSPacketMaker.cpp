@@ -169,12 +169,20 @@ VOID SWSPacketMaker::CreateSWPacket(IPv4Packet* packet) {
 		switch (_byteswap_ushort(swheader->_op)) {
 		case 0x0106:
 			break;
+		case 0x0501:
+			break;
+		case 0x0503:
+			break;
 		case 0x0522:
+			break;
+		case 0x0606:
+			swpacket = new SWSPacketMyDodgeUsed(swheader, data);
 			break;
 		case 0x0608:
 			swpacket = new SWSPacketMySkillUsed(swheader, data);
 			break;
 		default:
+			//swpacket = new SWSPacket(swheader, data);
 			break;
 		}
 

@@ -87,7 +87,7 @@ VOID PlayerTable::Update() {
 
 		CHAR title[128] = { 0 };
 
-		sprintf_s(title, 128, "%s : %02d:%02d [v1.2.5a]###DamageMeter", DAMAGEMETER.GetWorldName(), (UINT)DAMAGEMETER.GetTime() / 60, (UINT)DAMAGEMETER.GetTime() % 60);
+		sprintf_s(title, 128, "%s : %02d:%02d [v1.2.6a]###DamageMeter", DAMAGEMETER.GetWorldName(), (UINT)DAMAGEMETER.GetTime() / 60, (UINT)DAMAGEMETER.GetTime() % 60);
 		ImGui::Begin(title, 0, windowFlag);
 		{
 			if (!UIOPTION.isOption() || _tableResize)
@@ -216,7 +216,7 @@ VOID PlayerTable::SetupTable() {
 	ImGuiTableFlags tableFlags = ImGuiTableFlags_None;
 	tableFlags |= (ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable | ImGuiTableFlags_Resizable);
 
-	if (ImGui::BeginTable("###Player Table", 34, tableFlags)) {
+	if (ImGui::BeginTable("###Player Table", 36, tableFlags)) {
 
 		ImGuiTableColumnFlags columnFlags = ImGuiTableColumnFlags_None;
 		columnFlags |= ImGuiTableColumnFlags_NoSort;
@@ -257,6 +257,8 @@ VOID PlayerTable::SetupTable() {
 		ImGui::TableSetupColumn(STR_TABLE_GIGA_ENLIGHTEN, columnFlags | ImGuiTableColumnFlags_WidthFixed, -1);
 		ImGui::TableSetupColumn(STR_TABLE_TERA_ENLIGHTEN, columnFlags | ImGuiTableColumnFlags_WidthFixed, -1);
 		ImGui::TableSetupColumn(STR_TABLE_LOSED_HP, columnFlags | ImGuiTableColumnFlags_WidthFixed, -1);
+		ImGui::TableSetupColumn(STR_TABLE_DODGE_COUNT, columnFlags | ImGuiTableColumnFlags_WidthFixed, -1);
+		ImGui::TableSetupColumn("Death", columnFlags | ImGuiTableColumnFlags_WidthFixed, -1);
 		//ImGuiTableColumnFlags_WidthStretch
 
 
@@ -825,7 +827,24 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 		ImGui::Text(comma);
 		ImGui::TableNextColumn();
 
-		// 그냥 잡거
+		// 회피기 사용횟수
+		if (DAMAGEMETER.GetPlayerName((*itr)->GetID()) != "YOU" || _tableTime == 0) {
+			sprintf_s(label, 128, "-");
+			ImGui::Text(label);
+			ImGui::TableNextColumn();
+		}
+		else {
+			sprintf_s(label, 128, "%u", (*itr)->GetDodgeUsed());
+			ImGui::Text(label);
+			ImGui::TableNextColumn();
+		}
+
+		// Death Counter
+		sprintf_s(label, 128, "%u", (*itr)->GetDeathCount());
+		ImGui::Text(label);
+		ImGui::TableNextColumn();
+
+		// 그냥 잡거 (etc)
 		PLOTWINDOW.AddJqData((*itr)->GetJqStack(), _tableTime);
 	}
 }

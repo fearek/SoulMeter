@@ -54,7 +54,7 @@
 #define STR_TABLE_TERA_ENLIGHTEN u8"테라인라"
 
 #define STR_TABLE_LOSED_HP u8"잃은HP"
-
+#define STR_TABLE_DODGE_COUNT u8"회피기"
 
 
 #define STR_TABLE_DURATION u8"지속시간" // buff,debuff

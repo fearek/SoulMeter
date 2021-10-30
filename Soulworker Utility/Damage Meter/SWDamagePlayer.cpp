@@ -302,6 +302,16 @@ VOID SWDamagePlayer::AddSkillUsed(UINT32 skillId)
 	_skillCounts++;
 }
 
+VOID SWDamagePlayer::AddDodgeUsed()
+{
+	_dodgeCounts++;
+}
+
+VOID SWDamagePlayer::AddDeathCount()
+{
+	_deathCounts++;
+}
+
 VOID SWDamagePlayer::AddGetDamage(UINT64 totalDMG, SWPACKETDAMAGE_DAMAGETYPE damageType, UINT32 monsterID, UINT32 skillID)
 {
 	_getHitAll++;
@@ -336,6 +346,16 @@ VOID SWDamagePlayer::AddEnlighten(FLOAT value)
 USHORT SWDamagePlayer::GetSkillUsed()
 {
 	return _skillCounts;
+}
+
+USHORT SWDamagePlayer::GetDodgeUsed()
+{
+	return _dodgeCounts;
+}
+
+USHORT SWDamagePlayer::GetDeathCount()
+{
+	return _deathCounts;
 }
 
 VOID SWDamagePlayer::SetJqStack(BYTE stack)
