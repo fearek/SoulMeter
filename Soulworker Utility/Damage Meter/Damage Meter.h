@@ -18,7 +18,7 @@ using namespace std;
 #define DEBUG_DAMAGEMETER_MYID 0
 #define DEBUG_DAMAGEMETER_PLAYERMETA 0
 
-// ÀÌ define¹® ¿ø·¡ ¹Ø¿¡´Ù µÖ¼­ ±ò¸ÂÃãÇß´Âµ¥ À§ ±¸Á¶Ã¼¿¡¼­ ¹®Á¦ »ı°Ü¼­ °Á ÀÌÂÊÀ¸·Î ¿Ã¸²
+// ì´ defineë¬¸ ì›ë˜ ë°‘ì—ë‹¤ ë‘¬ì„œ ê¹”ë§ì¶¤í–ˆëŠ”ë° ìœ„ êµ¬ì¡°ì²´ì—ì„œ ë¬¸ì œ ìƒê²¨ì„œ ê± ì´ìª½ìœ¼ë¡œ ì˜¬ë¦¼
 #define DAMAGEMETER SWDamageMeter::getInstance()
 
 //  forward declaration
@@ -38,24 +38,24 @@ typedef struct _SW_DB2_STRUCT {
 
 
 static unordered_set<UINT32> resumeIgnoreIdList({
-	/* ±âÅ¸ */
-	14000101, 14000102, 14000103, // ÆÛÆê »¡°­/ÆÄ¶û/±İ»ö ±¸½½
-	1081102, 1081103, 1081104, 1081105, 1081106, 1081107, 1081108, 1081109, // ¿ÁÅ¸°ï 1·¾~5·¾+Æ¯¼º3·¾
-	1091101 // Æø½ÉÁö
+	/* ê¸°íƒ€ */
+	14000101, 14000102, 14000103, // í¼í« ë¹¨ê°•/íŒŒë‘/ê¸ˆìƒ‰ êµ¬ìŠ¬
+	1081102, 1081103, 1081104, 1081105, 1081106, 1081107, 1081108, 1081109, // ì˜¥íƒ€ê³¤ 1ë ™~5ë ™+íŠ¹ì„±3ë ™
+	1091101 // í­ì‹¬ì§€
 	});
 
 static unordered_set<UINT32> bossMonsterList({
-	/* ±âÅ¸ */
-	701, 702, // Æ®·¹ÀÌ´× ¸¶½ºÅÍ (°ø°İ), Æ®·¹ÀÌ´× ¸¶½ºÅÍ ÀÏ¹İ
-	31308001, // ¶óÆÄÄñ¹Ù
-	//31309101, 31309102, 31309151, // ¾ÆÅ§, ¿¡µå°¡
-	31309151, // Á¤Å©Äı
-	31301001, 31301002, 31301003, // ÇÃ·¹¸¶ 1Æä~3Æä
-	31310101, 31310102, // ³ë¸»Å×³× 1Æä,2Æä
-	31310103, 31310107 // ÇÏµåÅ×³× 3Æä,4Æä
+	/* ê¸°íƒ€ */
+	701, 702, // íŠ¸ë ˆì´ë‹ ë§ˆìŠ¤í„° (ê³µê²©), íŠ¸ë ˆì´ë‹ ë§ˆìŠ¤í„° ì¼ë°˜
+	31308001, // ë¼íŒŒì¿°ë°”
+	//31309101, 31309102, 31309151, // ì•„í˜, ì—ë“œê°€
+	31309151, // ì •í¬í€¸
+	31301001, 31301002, 31301003, // í”Œë ˆë§ˆ 1í˜~3í˜
+	31310101, 31310102, // ë…¸ë§í…Œë„¤ 1í˜,2í˜
+	31310103, 31310107 // í•˜ë“œí…Œë„¤ 3í˜,4í˜
 
-	//90500009,90500010,90500011,90500012, //½º³ë¸» ½Ã¿Â,¶ó¹İ,¿¡³ì,³ë¾Æ
-	//90500014,90500015,90500016,90500017 //½ºÇÏ ½Ã¿Â,¶ó¹İ,¿¡³ì,³ë¾Æ
+	//90500009,90500010,90500011,90500012, //ìŠ¤ë…¸ë§ ì‹œì˜¨,ë¼ë°˜,ì—ë…¹,ë…¸ì•„
+	//90500014,90500015,90500016,90500017 //ìŠ¤í•˜ ì‹œì˜¨,ë¼ë°˜,ì—ë…¹,ë…¸ì•„
 	});
 
 
@@ -165,20 +165,20 @@ public:
 	VOID MeterReseted() {
 		auto player = DAMAGEMETER.GetPlayerInfo(_id);
 		if (player != DAMAGEMETER.end()) {
-			// ÀÒÀº HP ÀúÀå
+			// ìƒì€ HP ì €ì¥
 			(*player)->setHistoryLosedHP(_losedHp);
 
 			if (_id == DAMAGEMETER.GetMyID()) {
-				// Æò±Õ¹æ°ü ÀúÀå
+				// í‰ê· ë°©ê´€ ì €ì¥
 				UINT64 currentTime = (UINT64)((DOUBLE)DAMAGEMETER.GetTime() * 1000);
 
 				UINT64 avgTimeDifference = currentTime - _avgABPreviousTime;
 				DOUBLE currentAB = GetStat(StatType::ArmorBreak);
-				currentAB = currentAB > 100.0 ? 100.0 : currentAB; // ¹æ°ü 100 ÃÊ°ú½Ã 100À¸·Î ¼³Á¤
+				currentAB = currentAB > 100.0 ? 100.0 : currentAB; // ë°©ê´€ 100 ì´ˆê³¼ì‹œ 100ìœ¼ë¡œ ì„¤ì •
 				UINT64 calculatedAvgAB = (_avgABSum + avgTimeDifference * currentAB);
 				(*player)->SetHistoryAvgAB((DOUBLE)calculatedAvgAB / currentTime);
 
-				// ±â¾î90 ÀúÀå
+				// ê¸°ì–´90 ì €ì¥
 				if (_gear90Started) {
 					UINT64 gear90TimeDiff = currentTime - _gear90PreviousTime;
 					gear90TimeDiff = (gear90TimeDiff >= 5000) ? 5000 : gear90TimeDiff;
@@ -186,7 +186,7 @@ public:
 					(*player)->setHistoryBS(90, (DOUBLE)_gear90Sum / currentTime);
 				}
 
-				// ±â¾î50 ÀúÀå
+				// ê¸°ì–´50 ì €ì¥
 				if (_gear50Started) {
 					UINT64 gear50TimeDiff = currentTime - _gear50PreviousTime;
 					gear50TimeDiff = (gear50TimeDiff >= 5000) ? 5000 : gear50TimeDiff;
@@ -194,7 +194,7 @@ public:
 					(*player)->setHistoryBS(50, (DOUBLE)_gear50Sum / currentTime);
 				}
 
-				//¾Ç¼¼1 ÀúÀå
+				//ì•…ì„¸1 ì €ì¥
 				if (_acc01Started) {
 					UINT64 acc01TimeDiff = currentTime - _acc01PreviousTime;
 					acc01TimeDiff = (acc01TimeDiff >= 2000) ? 2000 : acc01TimeDiff;
@@ -202,7 +202,7 @@ public:
 					(*player)->setHistoryBS(1, (DOUBLE)_acc01Sum / currentTime);
 				}
 
-				// ¾Ç¼¼2 ÀúÀå
+				// ì•…ì„¸2 ì €ì¥
 				if (_acc02Started)
 				{
 					UINT64 acc02TimeDiff = currentTime - _acc02PreviousTime;

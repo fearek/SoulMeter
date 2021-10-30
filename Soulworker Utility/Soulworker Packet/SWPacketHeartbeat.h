@@ -2,13 +2,13 @@
 #include ".\Soulworker Packet\SWPacket.h"
 
 /*
-* µµÅë ¹ºÁö ¸ğ¸£°ÚÀ½ ¤µ¤²
-* 1ÃÊ¸¶´Ù °è¼Ó ³¯¾Æ¿È
+* ë„í†µ ë­”ì§€ ëª¨ë¥´ê² ìŒ ã……ã…‚
+* 1ì´ˆë§ˆë‹¤ ê³„ì† ë‚ ì•„ì˜´
 */
 
 #pragma pack(push, 1)
 typedef struct _SWPACKETHEARTBEAT {
-	UINT32 _millisecond; // 1000ÀÌ 1ÃÊÀÎ ¹«¾ğ°¡
+	UINT32 _millisecond; // 1000ì´ 1ì´ˆì¸ ë¬´ì–¸ê°€
 	BYTE _unknown01[4];
 }SWPACKETHEARTBEAT;
 

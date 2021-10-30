@@ -21,7 +21,7 @@ VOID SWPacketStatChange::Do() {
 	if (stat_header->_unknown01 == 0) {
 		p_data = _data + sizeof(SWHEADER) + sizeof(SWPACKETSTATCHANGE_HEADER);
 	}
-	else { // �Ѽ��� 1�̸� ���� �ȸ±淡 �̷��ص�
+	else { // 한섭은 1이면 뭔가 안맞길래 이래해둠
 #if defined(SERVER_KOREA)
 		p_data = _data + sizeof(SWHEADER) + sizeof(SWPACKETSTATCHANGE_HEADER) + 14;
 #endif
@@ -49,7 +49,7 @@ VOID SWPacketStatChange::Debug() {
 	if (stat_header->_unknown01 == 0) {
 		p_data = _data + sizeof(SWHEADER) + sizeof(SWPACKETSTATCHANGE_HEADER);
 }
-	else { // �Ѽ��� 1�̸� ���� �ȸ±淡 �̷��ص� (���������� 1�̸� ����� Ȯ�� ���غ�)
+	else { // 한섭은 1이면 뭔가 안맞길래 이래해둠 (스팀섭에서 1이면 어떤지는 확인 안해봄)
 #if defined(SERVER_KOREA)
 		p_data = _data + sizeof(SWHEADER) + sizeof(SWPACKETSTATCHANGE_HEADER) + 14;
 #endif

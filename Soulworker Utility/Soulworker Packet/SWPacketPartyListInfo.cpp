@@ -82,7 +82,7 @@ VOID SWPacketPartyListInfo::Do() {
 		UINT32 leaderId = *((UINT32*)p_data);
 		p_data += 4;
 
-		BYTE unknown05 = *p_data; // ÀÌ°Ô 1ÀÏ°æ¿ì ÆÄÆ¼, 2ÀÏ °æ¿ì Æ÷½ºÀÎ°É·Î ÃßÁ¤µÊ
+		BYTE unknown05 = *p_data; // ì´ê²Œ 1ì¼ê²½ìš° íŒŒí‹°, 2ì¼ ê²½ìš° í¬ìŠ¤ì¸ê±¸ë¡œ ì¶”ì •ë¨
 		p_data += 1;
 		BYTE unknown06 = *p_data;
 		p_data += 1;

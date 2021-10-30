@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="소스 파일">
@@ -231,9 +231,6 @@
     <ClInclude Include="Language\Region.h">
       <Filter>Language</Filter>
     </ClInclude>
-    <ClInclude Include="Chineses.h">
-      <Filter>Language</Filter>
-    </ClInclude>
     <ClInclude Include="Soulworker Packet\SWPacketDamage.h">
       <Filter>SWPacket\Packet\0x06 Combat</Filter>
     </ClInclude>
@@ -326,6 +323,9 @@
     </ClInclude>
     <ClInclude Include="Soulworker Packet\SWPacketMonsterKilled.h">
       <Filter>SWPacket\Packet\0x17</Filter>
+    </ClInclude>
+    <ClInclude Include="Language\Chineses.h">
+      <Filter>Language</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

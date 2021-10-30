@@ -11,14 +11,14 @@ private:
 	FLOAT _tableTime;
 	FLOAT _accumulatedTime;
 
-	// ½ºÅ³ »ó¼¼ Á¤º¸
+	// ìŠ¤í‚¬ ìƒì„¸ ì •ë³´
 	UINT32 _monsterID_SKILL;
 
 	VOID UpdateSkillInfo();
 	VOID UpdateMonsterCombo();
 	VOID UpdateSkillTable();
 
-	// ¹öÇÁ Áı°è Á¤º¸
+	// ë²„í”„ ì§‘ê³„ ì •ë³´
 	VOID UpdateBuffMeter();
 	VOID UpdateBuffTable();
 

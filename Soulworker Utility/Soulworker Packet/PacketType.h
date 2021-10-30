@@ -54,7 +54,7 @@
 #include ".\Soulworker Packet\SWSPacket.h"
 #include ".\Soulworker Packet\SWSPacketMySkillUsed.h"
 
-// ´ëÃæ ¿©±â¿¡ ´Ù Áı¾î³õ°í packetType¸¸ includeÇØ¼­ ¾²¸é µÊ
+// ëŒ€ì¶© ì—¬ê¸°ì— ë‹¤ ì§‘ì–´ë†“ê³  packetTypeë§Œ includeí•´ì„œ ì“°ë©´ ë¨
 
 
 
@@ -73,7 +73,7 @@ enum OPcode {
 	JUMP = 0x0506,
 	CANCEL_WITHMOVE = 0x0511,
  
-	EVADE = 0x0607, // È¸ÇÇ,´Ù¿îÈÄ±¸¸£±â, °øÁßÇÇ°İÈÄ È¸ÇÇ¿¡ »ç¿ëµÊ?
+	EVADE = 0x0607, // íšŒí”¼,ë‹¤ìš´í›„êµ¬ë¥´ê¸°, ê³µì¤‘í”¼ê²©í›„ íšŒí”¼ì— ì‚¬ìš©ë¨?
 	USESKILL = 0x0609,
 	OTHER_USESKILL = 0x0610,
 	DAMAGE = 0x0613,

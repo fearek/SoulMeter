@@ -259,7 +259,7 @@ BOOL MySQL::GetMonsterName(UINT32 DB2, CHAR* out_buffer, SIZE_T out_buffer_lengt
 		return FALSE;
 
 	//if (DB1 == 0) {
-	//	strcpy_s(out_buffer, out_buffer_length, const_cast<CHAR*>(u8"∏ﬁ¿Ã¡Ó ¡§∫∏ X"));
+	//	strcpy_s(out_buffer, out_buffer_length, const_cast<CHAR*>(u8"Î©îÏù¥Ï¶à Ï†ïÎ≥¥ X"));
 	//	return TRUE;
 	//}
 

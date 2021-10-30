@@ -9,7 +9,7 @@ SWPacketWorldChange::SWPacketWorldChange(SWHEADER* swheader, BYTE* data) : SWPac
 
 VOID SWPacketWorldChange::Do() {
 	
-	// Àç½ÃÀÛ½Ã ÀÚµ¿ ¸®¼Â
+	// ì¬ì‹œì‘ì‹œ ìë™ ë¦¬ì…‹
 	DAMAGEMETER.Clear();
 
 	SWPACKETWORLDCHANGE* world_change = (SWPACKETWORLDCHANGE*)(_data + sizeof(SWHEADER));

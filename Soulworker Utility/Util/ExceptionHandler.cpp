@@ -1,7 +1,7 @@
 #include "pch.h"
 #include ".\Util\ExceptionHandler.h"
 
-typedef BOOL(WINAPI* MINIDUMPWRITEDUMP)( // Callback ÇÔ¼öÀÇ ¿øÇü
+typedef BOOL(WINAPI* MINIDUMPWRITEDUMP)( // Callback í•¨ìˆ˜ì˜ ì›í˜•
     HANDLE hProcess,
     DWORD dwPid,
     HANDLE hFile,
@@ -12,18 +12,18 @@ typedef BOOL(WINAPI* MINIDUMPWRITEDUMP)( // Callback ÇÔ¼öÀÇ ¿øÇü
 
 LPTOP_LEVEL_EXCEPTION_FILTER PreviousExceptionFilter = NULL;
 
-// UnHandled ExceptionÀÌ ¹ß»ıÇßÀ» ¶§ ³Ñ¾î¿À´Â Äİ¹é
+// UnHandled Exceptionì´ ë°œìƒí–ˆì„ ë•Œ ë„˜ì–´ì˜¤ëŠ” ì½œë°±
 LONG WINAPI UnHandledExceptionFilter(struct _EXCEPTION_POINTERS* exceptionInfo)
 {
     printf("Unhandled exception");
     HMODULE DllHandle = NULL;
 
-    // Windows 2000 ÀÌÀü¿¡´Â µû·Î DBGHELP¸¦ ¹èÆ÷ÇØ¼­ ¼³Á¤ÇØ ÁÖ¾î¾ß ÇÑ´Ù.
+    // Windows 2000 ì´ì „ì—ëŠ” ë”°ë¡œ DBGHELPë¥¼ ë°°í¬í•´ì„œ ì„¤ì •í•´ ì£¼ì–´ì•¼ í•œë‹¤.
     DllHandle = LoadLibrary(_T("DBGHELP.DLL"));
 
     if (DllHandle)
     {
-        // ´ıÇÁ¸¦ ¹Ş¾Æ ÆÄÀÏ·Î ¸¸µå´Â °úÁ¤
+        // ë¤í”„ë¥¼ ë°›ì•„ íŒŒì¼ë¡œ ë§Œë“œëŠ” ê³¼ì •
         MINIDUMPWRITEDUMP Dump = (MINIDUMPWRITEDUMP)GetProcAddress(DllHandle, "MiniDumpWriteDump");
 
         if (Dump)
@@ -31,7 +31,7 @@ LONG WINAPI UnHandledExceptionFilter(struct _EXCEPTION_POINTERS* exceptionInfo)
             TCHAR DumpPath[MAX_PATH] = { 0, };
             SYSTEMTIME SystemTime;
 
-            // ÇöÁ¦ ½Ã°£À» °¡Á®¿Â´Ù.
+            // í˜„ì œ ì‹œê°„ì„ ê°€ì ¸ì˜¨ë‹¤.
             GetLocalTime(&SystemTime);
 
             _sntprintf_s(DumpPath, MAX_PATH, _T("%d-%d-%d %d_%d_%d.dmp"),
@@ -54,7 +54,7 @@ LONG WINAPI UnHandledExceptionFilter(struct _EXCEPTION_POINTERS* exceptionInfo)
             {
                 _MINIDUMP_EXCEPTION_INFORMATION MiniDumpExceptionInfo;
 
-                // MiniDump ¿¹¿Ü Á¤º¸ ÀúÀå ±¸Á¶Ã¼ÀÌ´Ù.
+                // MiniDump ì˜ˆì™¸ ì •ë³´ ì €ì¥ êµ¬ì¡°ì²´ì´ë‹¤.
                 MiniDumpExceptionInfo.ThreadId = GetCurrentThreadId();
                 MiniDumpExceptionInfo.ExceptionPointers = exceptionInfo;
                 MiniDumpExceptionInfo.ClientPointers = NULL;
@@ -64,7 +64,7 @@ LONG WINAPI UnHandledExceptionFilter(struct _EXCEPTION_POINTERS* exceptionInfo)
                     GetCurrentProcessId(),
                     FileHandle,                    
                     MiniDumpNormal,
-                    &MiniDumpExceptionInfo,        // ¿¹¿Ü Á¤º¸
+                    &MiniDumpExceptionInfo,        // ì˜ˆì™¸ ì •ë³´
                     NULL,
                     NULL);
 

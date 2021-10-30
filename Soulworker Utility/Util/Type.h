@@ -80,32 +80,32 @@ typedef struct _ETHERNETHEADER {
 
 typedef struct _IPHEADER {
 	//little endian begin
-	USHORT len : 4;					//¹öÀü
-	USHORT version : 4;				//Çì´õ ±æÀÌ
+	USHORT len : 4;					//ë²„ì „
+	USHORT version : 4;				//í—¤ë” ê¸¸ì´
 	// little endian end
-	USHORT tos : 8;					// ¼­ºñ½º À¯Çü
-	USHORT length;					// ÀüÃ¼ ±æÀÌ
-	USHORT id;						// 16 ºñÆ® ¾ÆÀÌµğ
+	USHORT tos : 8;					// ì„œë¹„ìŠ¤ ìœ í˜•
+	USHORT length;					// ì „ì²´ ê¸¸ì´
+	USHORT id;						// 16 ë¹„íŠ¸ ì•„ì´ë””
 	//little endian begin
-	USHORT fragment_offset1 : 5;	// ´ÜÆíÈ­ ¿É¼Â
+	USHORT fragment_offset1 : 5;	// ë‹¨í¸í™” ì˜µì…‹
 	USHORT flags : 3;				// flag
-	USHORT fragment_offset2 : 8;	// ´ÜÆíÈ­ ¿É¼Â
+	USHORT fragment_offset2 : 8;	// ë‹¨í¸í™” ì˜µì…‹
 	//little endian end
 	USHORT ttl : 8;					// ttl
 	USHORT protocol : 8;			// protocol tcp==06
-	USHORT checksum;				// Çì´õ Ã½¼¶
-	ULONG src_ip;					// Ãâ¹ßÁö IP
-	ULONG dest_ip;					// ¸ñÀûÁö IP
+	USHORT checksum;				// í—¤ë” ì²µì„¬
+	ULONG src_ip;					// ì¶œë°œì§€ IP
+	ULONG dest_ip;					// ëª©ì ì§€ IP
 }IPHEADER;
 
 typedef struct _TCPHEADER {
-	USHORT src_port;				// Ãâ¹ßÁö port
-	USHORT dest_port;				// ¸ñÀûÁö port
-	ULONG sqc_number;				// ½ÃÄÁ½º ³Ñ¹ö
-	ULONG ack_number;				// ack ³Ñ¹ö
+	USHORT src_port;				// ì¶œë°œì§€ port
+	USHORT dest_port;				// ëª©ì ì§€ port
+	ULONG sqc_number;				// ì‹œì»¨ìŠ¤ ë„˜ë²„
+	ULONG ack_number;				// ack ë„˜ë²„
 	//little endian begin
 	USHORT reserved1 : 4;			// reserved
-	USHORT length : 4;				// Çì´õ ±æÀÌ
+	USHORT length : 4;				// í—¤ë” ê¸¸ì´
 	USHORT fin : 1;					// FIN
 	USHORT syn : 1;					// SYN
 	USHORT rst : 1;					// RST
@@ -114,9 +114,9 @@ typedef struct _TCPHEADER {
 	USHORT urg : 1;					// URG
 	USHORT reserved2 : 2;			// reserved
 	//little endian end
-	USHORT window_size;				// À©µµ¿ì Å©±â
+	USHORT window_size;				// ìœˆë„ìš° í¬ê¸°
 	USHORT tcp_checksum;			// TCP checksum
-	USHORT urg_point;				//±ä±Ş Æ÷ÀÎÅÍ
+	USHORT urg_point;				//ê¸´ê¸‰ í¬ì¸í„°
 }TCPHEADER;
 
 typedef struct _IPV4PACKET {

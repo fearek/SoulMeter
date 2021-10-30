@@ -32,7 +32,7 @@ VOID SWPacketDamage::Do() {
 	BYTE monsterNum = *(_data + sizeof(SWHEADER));
 	SWPACKETDAMAGE_PLAYER* player = (SWPACKETDAMAGE_PLAYER*)((_data + sizeof(_SWPACKETDAMAGE_MONSTER) * monsterNum) + sizeof(SWHEADER) + 1);
 
-	// ÇÃ·¹ÀÌ¾î°¡ ¾Æ´Ñ °³Ã¼ÀÇ µ¥¹ÌÁöÀÌ¸é ÇÃ·¹ÀÌ¾î°¡ ¼ÒÈ¯ÇÑ °³Ã¼ÀÎÁö È®ÀÎ ¹× ÇÃ·¹ÀÌ¾î°¡ ´©±ºÁö ¹Þ¾Æ¿È
+	// í”Œë ˆì´ì–´ê°€ ì•„ë‹Œ ê°œì²´ì˜ ë°ë¯¸ì§€ì´ë©´ í”Œë ˆì´ì–´ê°€ ì†Œí™˜í•œ ê°œì²´ì¸ì§€ í™•ì¸ ë° í”Œë ˆì´ì–´ê°€ ëˆ„êµ°ì§€ ë°›ì•„ì˜´
 	if (!DAMAGEMETER.CheckPlayer(player->_playerID)) {
 		UINT32 owner_id = 0xffffffff;
 		if ((owner_id = DAMAGEMETER.GetOwnerID(player->_playerID)) == 0xffffffff) {
@@ -69,12 +69,12 @@ VOID SWPacketDamage::Do() {
 			db2 = db->_db2;
 		}
 
-		// Æ¯Á¤ ¸÷ »ç¸Á½Ã ÀÏ½ÃÁ¤Áö
+		// íŠ¹ì • ëª¹ ì‚¬ë§ì‹œ ì¼ì‹œì •ì§€
 		if (monster->_remainHP <= 0 && pauseIdList.find(db2) != pauseIdList.end()) {
 			DAMAGEMETER.Suspend();
 		}
 
-		// Æ¯Á¤ ¸÷ »ç¸Á½Ã ¸ÞÀÌÁî Á¾·á Ã³¸®
+		// íŠ¹ì • ëª¹ ì‚¬ë§ì‹œ ë©”ì´ì¦ˆ ì¢…ë£Œ ì²˜ë¦¬
 		else if (monster->_remainHP <= 0 && endIdList.find(db2) != endIdList.end()) {
 			DAMAGEMETER.SetMazeState(TRUE);
 			DAMAGEMETER.Suspend();

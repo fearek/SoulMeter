@@ -158,7 +158,7 @@ VOID PlayerTable::BeginPopupMenu() {
 
 	if (ImGui::BeginPopupContextItem()) {
 		//if (ImGui::MenuItem(STR_MENU_RESUME)) {
-		//	//µô ÁÖÀÛ ¹æÁö¿ëÀ¸·Î ÀÏ½ÃÁ¤Áö ¸·¾ÆµÒ
+		//	//ë”œ ì£¼ìž‘ ë°©ì§€ìš©ìœ¼ë¡œ ì¼ì‹œì •ì§€ ë§‰ì•„ë‘ 
 		//	//DAMAGEMETER.Toggle();
 		//}
 
@@ -281,12 +281,12 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 
 	for (auto itr = DAMAGEMETER.begin(); itr != DAMAGEMETER.end(); itr++) {
 
-		// ¼Ö·Î¸ðµåÀÌ¸é ´Ð³ÛÀÌ YOUÀÏ°æ¿ì¿¡¸¸ ±×¸²
+		// ì†”ë¡œëª¨ë“œì´ë©´ ë‹‰ë„´ì´ YOUì¼ê²½ìš°ì—ë§Œ ê·¸ë¦¼
 		if (UIOPTION.isSoloMode() && DAMAGEMETER.GetPlayerName((*itr)->GetID()) != "YOU") {
 			continue;
 		}
 
-		// µ¥¹ÌÁö ¹Ù ±×¸®±â
+		// ë°ë¯¸ì§€ ë°” ê·¸ë¦¬ê¸°
 		if (itr == DAMAGEMETER.begin())
 			max_Damage = (*itr)->GetDamage();
 
@@ -448,13 +448,13 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 		UINT32 playerID = (*itr)->GetID();
 		SWDamageMeter::SW_PLAYER_METADATA* playerMetaData = DAMAGEMETER.GetPlayerMetaData(playerID);
 
-		// ´©±¸¾ßÁÂ ³ª¿À¸é null pointer µÇ¼­ ¾Ã¾î¾ßÇÔ
+		// ëˆ„êµ¬ì•¼ì¢Œ ë‚˜ì˜¤ë©´ null pointer ë˜ì„œ ì”¹ì–´ì•¼í•¨
 		if (playerMetaData == NULL) {
 			continue;
 		}
 
 		if (DAMAGEMETER.GetPlayerName((*itr)->GetID()) != "YOU" || _tableTime == 0) {
-			//// °øÄ¡ÇÕ
+			//// ê³µì¹˜í•©
 			sprintf_s(label, 128, "-");
 			ImGui::Text(label);
 			ImGui::TableNextColumn();
@@ -463,16 +463,16 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 			sprintf_s(label, 128, "%.1f", playerMetaData->GetStat(StatType::SG));
 			ImGui::Text(label);
 			ImGui::TableNextColumn();
-			// °ø¼Ó
+			// ê³µì†
 			sprintf_s(label, 128, "%.1f", playerMetaData->GetStat(StatType::AttackSpeed));
 			ImGui::Text(label);
 			ImGui::TableNextColumn();
 
-			// ¹æ°ü
+			// ë°©ê´€
 			sprintf_s(label, 128, "-");
 			ImGui::Text(label);
 			ImGui::TableNextColumn();
-			// ½ºÅÂ
+			// ìŠ¤íƒœ
 			sprintf_s(label, 128, "-");
 			ImGui::Text(label);
 			ImGui::TableNextColumn();
@@ -482,7 +482,7 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 			ImGui::TableNextColumn();
 		}
 		else {
-			// °øÄ¡ÇÕ
+			// ê³µì¹˜í•©
 			DOUBLE gongchihap = (DOUBLE)playerMetaData->GetStat(StatType::MaxAttack) + (DOUBLE)playerMetaData->GetStat(StatType::CritDamage);
 			if (UIOPTION.is1K())
 				gongchihap /= 1000;
@@ -502,12 +502,12 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 			ImGui::Text(label);
 
 			ImGui::TableNextColumn();
-			// °ø¼Ó
+			// ê³µì†
 			sprintf_s(label, 128, "%.1f", playerMetaData->GetStat(StatType::AttackSpeed));
 			ImGui::Text(label);
 
 			ImGui::TableNextColumn();
-			// ¹æ°ü
+			// ë°©ê´€
 			sprintf_s(label, 128, "%.1f", playerMetaData->GetStat(StatType::ArmorBreak));
 			PLOTWINDOW.AddAbData(playerMetaData->GetStat(StatType::ArmorBreak), _tableTime);
 			ImGui::Text(label);
@@ -526,7 +526,7 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 
 
 
-		// ¼Ò¿ï½ºÅæ ºñÁß%
+		// ì†Œìš¸ìŠ¤í†¤ ë¹„ì¤‘%
 		DOUBLE soulstoneAllPercent;
 		if ((*itr)->GetDamage() == 0) {
 			soulstoneAllPercent = 0.0;
@@ -539,7 +539,7 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 		ImGui::Text(label);
 		ImGui::TableNextColumn();
 
-		//¼Ò¿ï½ºÅæ ¹ßµ¿%
+		//ì†Œìš¸ìŠ¤í†¤ ë°œë™%
 		DOUBLE soulstoneProcRate;
 		if ((*itr)->GetCritHitCountForCritRate() == 0) {
 			soulstoneProcRate = 0.0;
@@ -552,7 +552,7 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 		ImGui::Text(label);
 		ImGui::TableNextColumn();
 
-		// ¼Ò¿ï½ºÅæ µ©%
+		// ì†Œìš¸ìŠ¤í†¤ ëŽ€%
 		DOUBLE soulstoneDamage;
 		if ((*itr)->GetDamageForSoulstone() == 0) {
 			soulstoneDamage = 0.0;
@@ -564,7 +564,7 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 		ImGui::Text(label);
 		ImGui::TableNextColumn();
 
-		// Æò±Õ¹æ°ü
+		// í‰ê· ë°©ê´€
 		static DOUBLE savedResult = 0;
 
 		if (DAMAGEMETER.GetPlayerName((*itr)->GetID()) != "YOU" || _tableTime == 0) {
@@ -583,7 +583,7 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 			else {
 				UINT64 timeDifference = (milliTableTime - playerMetaData->_avgABPreviousTime);
 				DOUBLE currentAB = playerMetaData->GetStat(StatType::ArmorBreak);
-				currentAB = currentAB > 100.0 ? 100.0 : currentAB; // ¹æ°ü 100 ÃÊ°ú½Ã 100À¸·Î ¼³Á¤
+				currentAB = currentAB > 100.0 ? 100.0 : currentAB; // ë°©ê´€ 100 ì´ˆê³¼ì‹œ 100ìœ¼ë¡œ ì„¤ì •
 				UINT64 calculatedAvgAB = (playerMetaData->_avgABSum + timeDifference * currentAB);
 
 				savedResult = (DOUBLE)calculatedAvgAB / milliTableTime;
@@ -610,33 +610,33 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 		ImGui::Text(label);
 		ImGui::TableNextColumn();
 
-		// °¨³ªºø
+		// ê°ë‚˜ë¹—
 		sprintf_s(label, 128, "%.1f", playerMetaData->GetStat(StatType::PartialDamage));
 		ImGui::Text(label);
 		ImGui::TableNextColumn();
 
-		//ÇÇ°Ý(0µ©Æ÷ÇÔ)
+		//í”¼ê²©(0ëŽ€í¬í•¨)
 		sprintf_s(label, 128, "%d", (*itr)->GetGetHitAll());
 		TextCommma(label, comma);
 		ImGui::Text(comma);
 
 		ImGui::TableNextColumn();
 
-		// ÇÇ°Ý
+		// í”¼ê²©
 		sprintf_s(label, 128, "%d", (*itr)->GetGetHit());
 		TextCommma(label, comma);
 		ImGui::Text(comma);
 
 		ImGui::TableNextColumn();
 
-		// ÇÇ°Ý ºê¼¼
+		// í”¼ê²© ë¸Œì„¸
 		sprintf_s(label, 128, "%d", (*itr)->GetGetHitBS());
 		TextCommma(label, comma);
 		ImGui::Text(comma);
 
 		ImGui::TableNextColumn();
 
-		// ±â¾î90 Å×½ºÆ®
+		// ê¸°ì–´90 í…ŒìŠ¤íŠ¸
 		static DOUBLE gear90savedResult = 0.0;
 		static DOUBLE gear50savedResult = 0.0;
 		static DOUBLE acc01savedResult = 0.0;
@@ -701,7 +701,7 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 				gear50savedResult = (DOUBLE)gear50Sum / milliTableTime;
 			}
 
-			// ¾Ç¼¼
+			// ì•…ì„¸
 			if (playerMetaData->_acc01Started == false) {
 				acc01savedResult = 0.0;
 			}
@@ -712,7 +712,7 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 				acc01savedResult = (DOUBLE)acc01Sum / milliTableTime;
 			}
 
-			// ¾Ç¼¼
+			// ì•…ì„¸
 			if (playerMetaData->_acc02Started == false) {
 				acc02savedResult = 0.0;
 			}
@@ -759,7 +759,7 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 
 		}
 
-		//È¸ÇÇÀ²
+		//íšŒí”¼ìœ¨
 
 
 		if ((*itr)->GetGetHitAll() == 0) {
@@ -782,7 +782,7 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 		ImGui::TableNextColumn();
 
 
-		// ÀÎ¶óµé
+		// ì¸ë¼ë“¤
 		if (DAMAGEMETER.GetPlayerName((*itr)->GetID()) != "YOU" || _tableTime == 0) {
 			sprintf_s(label, 128, "-");
 			ImGui::Text(label);
@@ -802,7 +802,7 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 			ImGui::TableNextColumn();
 		}
 
-		// ÀÒÀº HP
+		// ìžƒì€ HP
 		DOUBLE losedHP = 0.0;
 		if (DAMAGEMETER.isHistoryMode()) {
 			losedHP = (*itr)->GetHistoryLosedHP();
@@ -825,7 +825,7 @@ VOID PlayerTable::UpdateTable(FLOAT windowWidth) {
 		ImGui::Text(comma);
 		ImGui::TableNextColumn();
 
-		// ±×³É Àâ°Å
+		// ê·¸ëƒ¥ ìž¡ê±°
 		PLOTWINDOW.AddJqData((*itr)->GetJqStack(), _tableTime);
 	}
 }

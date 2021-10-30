@@ -25,7 +25,7 @@ DWORD MyWinDivert::Init() {
 
 DWORD MyWinDivert::ReceiveCallback(LPVOID prc) {
 
-//	 Windivert 1.4.2 ¹öÀü¿ë
+//	 Windivert 1.4.2 ë²„ì „ìš©
 #define WINDIVERT_MTU_MAX (40 + 0xFFFF)
 
 	DWORD error = ERROR_SUCCESS;
@@ -60,18 +60,18 @@ DWORD MyWinDivert::ReceiveCallback(LPVOID prc) {
 				continue;
 			}
 
-			// IP Çì´õ ºÐ¸®
+			// IP í—¤ë” ë¶„ë¦¬
 			packet._ipHeader = (IPHEADER*)(pkt_data);
 			packet._ipHeader->length = _byteswap_ushort(packet._ipHeader->length);
 
 			switch (packet._ipHeader->version) {
 			case 4: { // IPv4
 
-				// TCP Çì´õ ºÐ¸®
+				// TCP í—¤ë” ë¶„ë¦¬
 				packet._tcpHeader = (TCPHEADER*)(pkt_data + packet._ipHeader->len * 4);
 				packet._datalength = packet._ipHeader->length - (packet._ipHeader->len * 4 + packet._tcpHeader->length * 4);
 
-				// TCP ¼¼±×¸ÕÆ®
+				// TCP ì„¸ê·¸ë¨¼íŠ¸
 				packet._data = (pkt_data + packet._ipHeader->len * 4 + packet._tcpHeader->length * 4);
 
 #if DEBUG_DIVERT_ALL == 1

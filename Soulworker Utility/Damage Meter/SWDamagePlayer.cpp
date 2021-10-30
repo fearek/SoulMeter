@@ -57,14 +57,14 @@ VOID SWDamagePlayer::AddDamage(UINT64 totalDMG, UINT64 soulstoneDMG, SWPACKETDAM
 	//Log::WriteLog(const_cast<LPTSTR>(_T("[PLAYER] [DamageType = %d]")), damageType.CRIT);
 
 
-	// dbºÎºĞ ÀÓÀÇ·Î Ãß°¡ÇÔ
+	// dbë¶€ë¶„ ì„ì˜ë¡œ ì¶”ê°€í•¨
 	SW_DB2_STRUCT* db = DAMAGEMETER.GetMonsterDB(monsterID);
 	UINT32 db2 = 0;
 	if (db != nullptr) {
 		db2 = db->_db2;
 	}
 
-	// ¾Ç¼¼¼Â¿É °è»ê¿ë
+	// ì•…ì„¸ì…‹ì˜µ ê³„ì‚°ìš©
 	if (!damageType.MISS && _id == DAMAGEMETER.GetMyID()) {
 		auto metadata = DAMAGEMETER.GetPlayerMetaData(_id);
 		if (metadata != nullptr) {
@@ -74,7 +74,7 @@ VOID SWDamagePlayer::AddDamage(UINT64 totalDMG, UINT64 soulstoneDMG, SWPACKETDAM
 
 	_hitCount += 1;
 	_critHitCount += damageType.CRIT;
-	// ¿ÁÅ¸°ï °°Àº°Ô ¾Æ´Ï¶ó¸é Ä¡È® °è»ê¿¡ Æ÷ÇÔ (¼Ò¿ï½ºÅæ µ¥¹ÌÁö´Â ¹Ø¿¡ Àâ¸÷µµ Á¦¿ÜÇÑ ¹öÀü¿¡¼­ Æ÷ÇÔÇÔ)
+	// ì˜¥íƒ€ê³¤ ê°™ì€ê²Œ ì•„ë‹ˆë¼ë©´ ì¹˜í™• ê³„ì‚°ì— í¬í•¨ (ì†Œìš¸ìŠ¤í†¤ ë°ë¯¸ì§€ëŠ” ë°‘ì— ì¡ëª¹ë„ ì œì™¸í•œ ë²„ì „ì—ì„œ í¬í•¨í•¨)
 	if (totalDMG >= 200) {
 		_hitCountForCritRate += 1;
 		_critHitCountForCritRate += damageType.CRIT;
@@ -95,8 +95,8 @@ VOID SWDamagePlayer::AddDamage(UINT64 totalDMG, UINT64 soulstoneDMG, SWPACKETDAM
 
 	USHORT worldID = DAMAGEMETER.GetWorldID();
 
-	// È­ÀÌÆ®¸®½ºÆ® Á¦µµ
-	// ºê¼¼ÀÏ °æ¿ì º¸½º¸÷¸¸ µ¥¹ÌÁö¿¡ Ãß°¡ÇÔ
+	// í™”ì´íŠ¸ë¦¬ìŠ¤íŠ¸ ì œë„
+	// ë¸Œì„¸ì¼ ê²½ìš° ë³´ìŠ¤ëª¹ë§Œ ë°ë¯¸ì§€ì— ì¶”ê°€í•¨
 	if (worldID == 21018) {
 		if (db2 == 31310101 || db2 == 31310102) {
 			_damage += totalDMG;
@@ -105,8 +105,8 @@ VOID SWDamagePlayer::AddDamage(UINT64 totalDMG, UINT64 soulstoneDMG, SWPACKETDAM
 			_soulstoneDamageForSoulstone += soulstoneDMG;
 		}
 	}
-	// ÀÌÇÏ ºí·¢¸®½ºÆ® Á¦µµ
-	// Á¦¿Ü¸ñ·Ï¿¡ µé¾î°¡ÀÖÁö ¾Ê´Ù¸é µ¥¹ÌÁö ÇÕ»ê
+	// ì´í•˜ ë¸”ë™ë¦¬ìŠ¤íŠ¸ ì œë„
+	// ì œì™¸ëª©ë¡ì— ë“¤ì–´ê°€ìˆì§€ ì•Šë‹¤ë©´ ë°ë¯¸ì§€ í•©ì‚°
 	else if (dpsIgnoreIdList.find(db2) == dpsIgnoreIdList.end()) {
 		_damage += totalDMG;
 		_soulstoneDamage += soulstoneDMG;
@@ -307,7 +307,7 @@ VOID SWDamagePlayer::AddGetDamage(UINT64 totalDMG, SWPACKETDAMAGE_DAMAGETYPE dam
 	_getHitAll++;
 	if (totalDMG > 0) {
 		_getHit++;
-		// °ËÀº ÀåÆÇ, ¹Ì´ÏÁ¾º¹ÀÇ Á¾º¹ (µÑ´Ù °æÁ÷ ¾øÀ½)
+		// ê²€ì€ ì¥íŒ, ë¯¸ë‹ˆì¢…ë³µì˜ ì¢…ë³µ (ë‘˜ë‹¤ ê²½ì§ ì—†ìŒ)
 		if (skillID != 1313101016 && skillID != 1313101113) {
 			_getHitBS++;
 		}

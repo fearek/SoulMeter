@@ -39,16 +39,16 @@ enum StatType {
 	// MagicCritChance = 0x22,
 	CritDamage = 0x23,
 	MagicCritDamage = 0x24,
-	// µ¥¹ÌÁö °¨¼Ò È®·ü(%) = 0x25,
+	// ë°ë¯¸ì§€ ê°ì†Œ í™•ë¥ (%) = 0x25,
 	DamageReduction = 0x26,
 	MagicDamageReduction = 0x27,
-	// Áö¼Ó »óÅÂÀÌ»ó ÀúÇ×·Â(%) = 0x28,
-	// Á¶ÀÛ »óÅÂÀÌ»ó ÀúÇ×·Â(%) = 0x29,
-	// Æ¯¼ö »óÅÂÀÌ»ó ÀúÇ×·Â(%) = 0x2a,
+	// ì§€ì† ìƒíƒœì´ìƒ ì €í•­ë ¥(%) = 0x28,
+	// ì¡°ì‘ ìƒíƒœì´ìƒ ì €í•­ë ¥(%) = 0x29,
+	// íŠ¹ìˆ˜ ìƒíƒœì´ìƒ ì €í•­ë ¥(%) = 0x2a,
 	Evade = 0x2b,
 	MagicEvade = 0x2c,
-	// °ø°İ ¼º°ø·ü (»ç¿ë¾ÈÇÔ) = 0x2d,
-	// ¸¶¹ı °ø°İ ¼º°ø·ü (»ç¿ë¾ÈÇÔ) = 0x2e,
+	// ê³µê²© ì„±ê³µë¥  (ì‚¬ìš©ì•ˆí•¨) = 0x2d,
+	// ë§ˆë²• ê³µê²© ì„±ê³µë¥  (ì‚¬ìš©ì•ˆí•¨) = 0x2e,
 	ArmorBreak = 0x2f,
 	MagicArmorBreak = 0x30,
 	// 0x31 ~ 0x3c : status effect resist
@@ -59,9 +59,9 @@ enum StatType {
 };
 #pragma pack(push, 1)
 typedef struct _SWPACKETDAMAGE_DAMAGETYPE {
-	unsigned int MISS : 1; // °¨³ªºø 0x01
+	unsigned int MISS : 1; // ê°ë‚˜ë¹— 0x01
 	unsigned int unknown2 : 1;
-	unsigned int CRIT : 1; // Å©¸® 0x04
+	unsigned int CRIT : 1; // í¬ë¦¬ 0x04
 	unsigned int unknown4 : 1;
 	unsigned int soulstoneType : 4;
 

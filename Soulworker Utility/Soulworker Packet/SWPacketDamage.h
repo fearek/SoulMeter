@@ -19,7 +19,7 @@ typedef struct _SWPACKETDAMAGE_MONSTER {
 	BYTE _unknown02[18];
 #endif
 #ifdef SERVER_STEAM
-	BYTE _unknown02[10];//���� 22
+	BYTE _unknown02[10];//원래 22
 #endif
 }SWPACKETDAMAGE_MONSTER;
 
@@ -34,17 +34,17 @@ typedef struct _SWPACKETDAMAGE_PLAYER {
 	
 #pragma pack(pop)
 static unordered_set<UINT32> pauseIdList({
-	31309102, // �糪�� - ���尡
-	31301001, // �ٽ� - �÷��� 1��
-	31301002, // �ٽ� - �÷��� 2��
-	31310101 // �꼼�븻 - �׳׺긮�� 1��
-	// 702 // �Ͻ����� �׽�Ʈ�� Ʈ����
+	31309102, // 루나폴 - 에드가
+	31301001, // 바썬 - 플레마 1페
+	31301002, // 바썬 - 플레마 2페
+	31310101 // 브세노말 - 테네브리스 1페
+	// 702 // 일시정지 테스트용 트센몹
 	});
 static unordered_set<UINT32> endIdList({
-	31308001, // ���� - �������
-	31309151, // �糪�� - ��ũ ��
-	31301003, // �ٽ� - �÷��� 3��
-	31310102 // �꼼�븻 - �׳׺긮�� 2��
+	31308001, // 히하 - 라파쿰바
+	31309151, // 루나폴 - 정크 퀸
+	31301003, // 바썬 - 플레마 3페
+	31310102 // 브세노말 - 테네브리스 2페
 	});
 
 class SWPacketDamage : public SWPacket {

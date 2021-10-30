@@ -14,7 +14,7 @@ VOID SWPacketSpawnedCharInfo::Do() {
 	BYTE* p_data = _data;
 	p_data += sizeof(SWHEADER) + sizeof(SWPACKETSPAWNEDCHARINFO_HEADER);
 
-	// !!!!! ÀÌ°Å job ¾Æ´Ï¿´À½; ³ª´Â 7·Î ¶ß´Âµ¥ ´Ù¸¥»ç¶÷Àº ÀüºÎ 1·Î ¶ä
+	// !!!!! ì´ê±° job ì•„ë‹ˆì˜€ìŒ; ë‚˜ëŠ” 7ë¡œ ëœ¨ëŠ”ë° ë‹¤ë¥¸ì‚¬ëžŒì€ ì „ë¶€ 1ë¡œ ëœ¸
 	BYTE job = *(p_data + spawned_header->_nameSize + 1);
 
 	WCHAR utf16[MAX_NAME_LEN] = { 0 };

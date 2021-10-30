@@ -17,7 +17,7 @@ typedef struct _SWPACKETOBJECTCREATE {
 	BYTE _unknown02[17];
 #endif
 #ifdef SERVER_STEAM
-	BYTE _unknown02[5]; // unknown01 -> id -> unknown02 ±∏¡∂¿Œ√§∑Œ 33
+	BYTE _unknown02[5]; // unknown01 -> id -> unknown02 Íµ¨Ï°∞Ïù∏Ï±ÑÎ°ú 33
 #endif
 	UINT32 _realDB2;
 	UINT32 _owner_id;

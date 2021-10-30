@@ -15,7 +15,7 @@ VOID PlotWindow::AddData(UINT32 id, string name, DOUBLE DPS, DOUBLE time, bool i
 			_allowed = true;
 		}
 	}
-	// Ã¹¹øÂ°°¡ ½ºÅµµÇ¸é ³ª¸ÓÁöµµ °°ÀÌ ½ºÅµµÇ¾î¾ßÇÔ
+	// ì²«ë²ˆì§¸ê°€ ìŠ¤í‚µë˜ë©´ ë‚˜ë¨¸ì§€ë„ ê°™ì´ ìŠ¤í‚µë˜ì–´ì•¼í•¨
 	else {
 		if (!_allowed) {
 			return;
@@ -89,7 +89,7 @@ VOID PlotWindow::Update()
 
 		ImGui::Begin(STR_UTILWINDOW_MEOW, &_isOpen, ImGuiWindowFlags_None);
 
-		if (ImGui::BeginTabBar(u8"Å×½ºÆ®2"))
+		if (ImGui::BeginTabBar(u8"í…ŒìŠ¤íŠ¸2"))
 		{
 			UpdatePlotTab();
 			UpdateAbPlotTab();
@@ -102,20 +102,20 @@ VOID PlotWindow::Update()
 
 VOID PlotWindow::UpdatePlotTab()
 {
-	if (ImGui::BeginTabItem(u8"ÀÏ¹İ ±×·¡ÇÁ"))
+	if (ImGui::BeginTabItem(u8"ì¼ë°˜ ê·¸ë˜í”„"))
 	{
 		if (timeList.size() > 0) {
 			UINT32 firstId = metaInfos.front()->_id;
 			UINT32 lastId = metaInfos.back()->_id;
 			USHORT currentSize = timeList[firstId].size();
 
-			// °¡·Î
+			// ê°€ë¡œ
 			DOUBLE startX = 0.0;
 			if (currentSize > 45) {
 				startX = timeList[firstId].at(currentSize - 45);
 			}
 			DOUBLE endX = timeList[firstId].at(currentSize - 1);
-			//¼¼·Î
+			//ì„¸ë¡œ
 			DOUBLE startY = 0;
 			DOUBLE endY = 10000;
 			if (currentSize > 45) {
@@ -164,7 +164,7 @@ VOID PlotWindow::UpdatePlotTab()
 
 VOID PlotWindow::UpdateAbPlotTab()
 {
-	if (ImGui::BeginTabItem(u8"¹æ°ü ±×·¡ÇÁ"))
+	if (ImGui::BeginTabItem(u8"ë°©ê´€ ê·¸ë˜í”„"))
 	{
 		UINT32 currentSize = _abTimeList.size();
 
@@ -242,7 +242,7 @@ VOID PlotWindow::Clear()
 	_lastTime = -1.0;
 	_abLastTime = -1.0;
 	_jqLastTime = -1.0;
-	// TODO : new·Î »ı¼ºÇÑ°Ç deleteÀÎ°¡ ÇØ¾ßµÊ
+	// TODO : newë¡œ ìƒì„±í•œê±´ deleteì¸ê°€ í•´ì•¼ë¨
 }
 
 PlotWindow::PlotWindow()

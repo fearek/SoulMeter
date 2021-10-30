@@ -26,7 +26,7 @@ VOID UtillWindow::OpenWindow()
 VOID UtillWindow::Update()
 {
 	//if (_isOpen) {
-	//	ImGui::Begin(u8"ÀüÅõ ·Î±×", &_isOpen, ImGuiWindowFlags_None);
+	//	ImGui::Begin(u8"ì „íˆ¬ ë¡œê·¸", &_isOpen, ImGuiWindowFlags_None);
 	//	
 	//	ImGui::BeginChild("Scrolling");
 	//	std::list<string>::iterator it;

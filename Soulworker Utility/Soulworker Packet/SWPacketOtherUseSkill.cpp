@@ -34,9 +34,9 @@ VOID SWPacketOtherUseSkill::Do() {
 			//	Log::MyLog(_T("2"));
 				SWDB.GetSkillName(otherSkill->_skillId, _skillName, SKILL_NAME_LEN);
 				//Log::MyLog(_T("3"));
-				string test = u8"Å×³×ºê¸®½º°¡ [";
+				string test = u8"í…Œë„¤ë¸Œë¦¬ìŠ¤ê°€ [";
 				test.append(_skillName);
-				test.append(u8"]¸¦ »ç¿ë");
+				test.append(u8"]ë¥¼ ì‚¬ìš©");
 				UTILLWINDOW.AddLog(test);
 				//Log::MyLog(test.c_str());
 			}
