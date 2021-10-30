@@ -300,6 +300,13 @@ DOUBLE SWDamagePlayer::GetHistoryLosedHP()
 VOID SWDamagePlayer::AddSkillUsed(UINT32 skillId)
 {
 	_skillCounts++;
+
+	if (skillCounts.find(skillId) == skillCounts.end()) {
+		skillCounts.insert(std::make_pair(skillId, 1));
+		return;
+	}
+
+	skillCounts[skillId] = skillCounts[skillId] + 1;
 }
 
 VOID SWDamagePlayer::AddDodgeUsed()

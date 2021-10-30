@@ -14,7 +14,10 @@ private:
 	// 스킬 상세 정보
 	UINT32 _monsterID_SKILL;
 
+	CHAR _skillName[64];
+
 	VOID UpdateSkillInfo();
+	VOID UpdateSkillTotalInfo();
 	VOID UpdateMonsterCombo();
 	VOID UpdateSkillTable();
 

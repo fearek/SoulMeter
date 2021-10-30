@@ -87,7 +87,7 @@ VOID PlayerTable::Update() {
 
 		CHAR title[128] = { 0 };
 
-		sprintf_s(title, 128, "%s : %02d:%02d [v1.2.6a]###DamageMeter", DAMAGEMETER.GetWorldName(), (UINT)DAMAGEMETER.GetTime() / 60, (UINT)DAMAGEMETER.GetTime() % 60);
+		sprintf_s(title, 128, "%s : %02d:%02d [v1.2.7a]###DamageMeter", DAMAGEMETER.GetWorldName(), (UINT)DAMAGEMETER.GetTime() / 60, (UINT)DAMAGEMETER.GetTime() % 60);
 		ImGui::Begin(title, 0, windowFlag);
 		{
 			if (!UIOPTION.isOption() || _tableResize)

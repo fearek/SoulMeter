@@ -2,6 +2,7 @@
 #include ".\Damage Meter\SWDamageMonster.h"
 #include ".\Soulworker Packet\PacketInfo.h"
 #include <unordered_set>
+#include <map>
 using namespace std;
 
 #define DEBUG_DAMAGE_PLAYER 0
@@ -25,7 +26,8 @@ static unordered_set<UINT32> dpsIgnoreIdList({
 	31310151, 31310152, 31310153, 31310154, // 붐 퍼펫, 포스 피스트, 쫄몹34? (남은건 헤비 워리어, 데들리 나이프인데 누가 누군지는 아직 모름)
 	31310192, // 2페 상자
 
-	31310108, 31310109, // 아마 얼음이랑 봉자
+	//31310108, 31310109, // 아마 얼음이랑 봉자
+	31310118, 31310119, // 이게 진짜 얼음이랑 봉자 (위에껀 오타)
 
 	/* 기타(etc) */
 	14000101, 14000102, 14000103, // 퍼펫 빨강/파랑/금색 구슬 (puppet orb)
@@ -90,6 +92,8 @@ public:
 	SWDamagePlayer(UINT32 id, UINT64 damage, UINT64 soulstoneDamage, SWPACKETDAMAGE_DAMAGETYPE damageType, USHORT maxCombo, UINT32 monsterID, UINT32 skillID);
 	SWDamagePlayer(UINT32 id);
 	~SWDamagePlayer();
+
+	map<UINT32, USHORT> skillCounts;
 
 	static BOOL SortFunction(SWDamagePlayer* playerA, SWDamagePlayer* playerB);
 

@@ -1,9 +1,10 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include ".\UI\SpecificInfomation.h"
 #include ".\UI\Option.h"
 #include ".\Damage Meter\Damage Meter.h"
 #include ".\Buff Meter\Buff Meter.h"
 #include ".\UI\UiWindow.h"
+#include ".\Damage Meter\MySQLite.h"
 
 
 SpecificInformation::SpecificInformation(UINT32 playerID) : _playerID(playerID), _monsterID_SKILL(0), _globalFontScale(0), _columnFontScale(0), _tableFontScale(0), _tableTime(0), _accumulatedTime(0) {
@@ -47,6 +48,7 @@ VOID SpecificInformation::Update(BOOL* open) {
 		if(ImGui::BeginTabBar(title))
 		{
 			UpdateSkillInfo();
+			UpdateSkillTotalInfo();
 			UpdateBuffMeter();
 
 			ImGui::EndTabBar();
@@ -69,6 +71,62 @@ VOID SpecificInformation::UpdateSkillInfo() {
 		ImGui::TextAlignCenter::UnSetTextAlignCenter();
 		ImGui::OutlineText::PopOutlineText();
 
+		ImGui::EndTabItem();
+	}
+}
+
+VOID SpecificInformation::UpdateSkillTotalInfo()
+{
+	if (ImGui::BeginTabItem("Total"))
+	{
+
+			auto player = DAMAGEMETER.GetPlayerInfo(_playerID);
+
+			if (player == DAMAGEMETER.end())
+				return;
+
+
+			ImGuiStyle& style = ImGui::GetStyle();
+
+			ImVec2 prevWindowPadding = style.WindowPadding;
+			style.WindowPadding.x = 0;
+			style.WindowPadding.y = 0;
+
+			CHAR table[128] = { 0 };
+			sprintf_s(table, 128, "##skilltable%d", _playerID);
+			if (ImGui::BeginTable(table, 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_Hideable | ImGuiTableFlags_Reorderable)) {
+
+				ImGui::TableSetupColumn(STR_TABLE_NAME, ImGuiTableColumnFlags_NoReorder | ImGuiTableColumnFlags_NoHide | ImGuiTableColumnFlags_NoClip | ImGuiTableColumnFlags_WidthFixed, -1);
+				ImGui::TableSetupColumn(u8"시전횟수", ImGuiTableColumnFlags_WidthFixed, -1);
+				ImGui::TableHeadersRow();
+
+				CHAR comma[128] = { 0 }; CHAR label[128] = { 0 };
+				UINT windowWidth = ImGui::GetWindowWidth();
+
+				ImGui::SetWindowFontScale(_tableFontScale);
+
+				for (auto itr = (*player)->skillCounts.begin(); itr != (*player)->skillCounts.end(); itr++) {
+					ImGui::TableNextRow();
+					ImGui::TableNextColumn();
+
+					// NAME
+					SWDB.GetSkillName(itr->first, _skillName, SKILL_NAME_LEN);
+
+					ImGui::Text(_skillName);
+
+					ImGui::TableNextColumn();
+
+					// 시전횟수
+					sprintf_s(label, 128, "%d", itr->second);
+					TextCommma(label, comma);
+					ImGui::Text(comma);
+				}
+				ImGui::EndTable();
+			}
+			ImGui::SetWindowFontScale(_globalFontScale);
+
+			style.WindowPadding.x = prevWindowPadding.x;
+			style.WindowPadding.y = prevWindowPadding.y;
 		ImGui::EndTabItem();
 	}
 }
