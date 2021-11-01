@@ -6,7 +6,7 @@
 #define SWMAGIC 3
 #endif
 #ifdef SERVER_STEAM
-#define SWMAGIC 2
+#define SWMAGIC 3
 #endif
 
 #define SWCONSTVALUE 1

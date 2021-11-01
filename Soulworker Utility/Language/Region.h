@@ -2,8 +2,8 @@
 // SERVER_KOREA : Stove (KR server)
 // SERVER_SETAM : Steam (EN, TC Server)
 // Supported Languages : _LANG_KOREAN, _LANG_ENGLISH, _LANG_CHINESES
-#define SERVER_KOREA
-#define _LANG_KOREAN
+#define SERVER_STEAM
+#define _LANG_CHINESES
 
 #ifdef _LANG_KOREAN
 #include "Korean.h"

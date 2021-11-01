@@ -2,8 +2,52 @@
 #include ".\Soulworker Packet\PacketType.h"
 #include ".\Soulworker Packet\SWPacketMaker.h"
 
+
 SWPacketMaker::SWPacketMaker() {
 	_isSegmentation = FALSE;
+
+	//read ketTable from file
+	//key file format:
+	//	[int		keyLength]
+	//	[BYTE[]		keyTable] 
+	//	[char[]		description]
+	//	EOF
+	char buffer[64];
+	errno_t err;
+	FILE *keyFile;
+	if ((err = fopen_s(&keyFile, KEY_FILE_NAME, "rb")) != 0) {
+		sprintf_s(_keyInfo, "Invalid_KeyFile");
+	}
+	else{
+
+		//check file size
+		fseek(keyFile, 0, SEEK_END);
+		int fileSize = ftell(keyFile);
+		rewind(keyFile);
+		
+		//read key length
+		int tmpKeyLen = 0;
+		fread(&tmpKeyLen, sizeof(int), 1, keyFile);
+
+		if (tmpKeyLen > 0 && tmpKeyLen < 64) {
+
+			if (fileSize - sizeof(int) - tmpKeyLen < 0) {
+				sprintf_s(_keyInfo, "Invalid_KeySize");
+				return;
+			}
+			fread(&buffer, sizeof(char), tmpKeyLen, keyFile);
+			//read key
+			//decrypt if needed
+			_keyLength = tmpKeyLen;
+			memcpy(_keyTable, buffer, _keyLength);
+
+			fread(&buffer, sizeof(char), fileSize - sizeof(int) - tmpKeyLen, keyFile);
+			//read description
+			sprintf_s(_keyInfo, "%s", buffer);
+
+		}
+		fclose(keyFile);
+	}
 }
 
 SWPacketMaker::~SWPacketMaker() {
@@ -39,7 +83,7 @@ VOID SWPacketMaker::Decrypt(BYTE* data, const UINT size, const UINT start) {
 		return;
 
 	for (UINT i = 0; i < size; i++) 
-		data[i + start] ^= _keyTable[i % (sizeof(_keyTable) / sizeof(BYTE))];
+		data[i + start] ^= _keyTable[i % (_keyLength)];  //data[i + start] ^= _keyTable[i % (sizeof(_keyTable) / sizeof(BYTE))];
 }
 
 VOID SWPacketMaker::ResizePacket(IPv4Packet* packet) {
@@ -323,4 +367,9 @@ DWORD SWPacketMaker::Parse(IPv4Packet* packet) {
 	CheckRemainPacket(packet);
 
 	return ERROR_SUCCESS;
+}
+
+char* SWPacketMaker::GetKeyInfo() {
+	return _keyInfo;
+
 }

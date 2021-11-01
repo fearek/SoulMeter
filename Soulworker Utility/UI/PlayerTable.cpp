@@ -11,6 +11,8 @@
 #include ".\UI\UtillWindow.h"
 #include ".\UI\PlotWindow.h"
 #include ".\Soulworker Packet\PacketInfo.h"
+#include ".\Soulworker Packet\SWPacketMaker.h"
+
 
 PlayerTable::PlayerTable() : _tableResize(0), _globalFontScale(0), _columnFontScale(0), _tableFontScale(0), _curWindowSize(0), _tableTime(0), _accumulatedTime(0) {
 
@@ -87,7 +89,7 @@ VOID PlayerTable::Update() {
 
 		CHAR title[128] = { 0 };
 
-		sprintf_s(title, 128, "%s : %02d:%02d [v1.2.7a]###DamageMeter", DAMAGEMETER.GetWorldName(), (UINT)DAMAGEMETER.GetTime() / 60, (UINT)DAMAGEMETER.GetTime() % 60);
+		sprintf_s(title, 128, "%s : %02d:%02d [v1.2.7a_%s]  ###DamageMeter", DAMAGEMETER.GetWorldName(), (UINT)DAMAGEMETER.GetTime() / 60, (UINT)DAMAGEMETER.GetTime() % 60, SWPACKETMAKER.GetKeyInfo());
 		ImGui::Begin(title, 0, windowFlag);
 		{
 			if (!UIOPTION.isOption() || _tableResize)
