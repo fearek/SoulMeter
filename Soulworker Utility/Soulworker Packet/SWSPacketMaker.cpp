@@ -46,7 +46,8 @@ SWSPacketMaker::SWSPacketMaker() {
 			memcpy(_keyTable, buffer, _keyLength);
 			memset(buffer, 0, sizeof(buffer));
 
-			fread(&buffer, sizeof(char), (fileSize - sizeof(int) - tmpKeyLen) > 64 ? 64 : (fileSize - sizeof(int) - tmpKeyLen), keyFile);
+			int info_len = fileSize - sizeof(int) - sizeof(USHORT) - tmpKeyLen;
+			fread(&buffer, sizeof(char), (info_len) > 64 ? 64 : info_len, keyFile);
 			//read description till end of file
 			sprintf_s(_keyInfo, "%s", buffer);
 
