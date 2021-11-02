@@ -8,6 +8,7 @@ SWPacketMaker::SWPacketMaker() {
 
 	//read ketTable from file
 	//key file format:
+	//	[USHORT		SWMAGIC]
 	//	[int		keyLength]
 	//	[BYTE[]		keyTable] 
 	//	[char[]		description]
@@ -25,6 +26,9 @@ SWPacketMaker::SWPacketMaker() {
 		int fileSize = ftell(keyFile);
 		rewind(keyFile);
 		
+		//read SWMAGIC
+		fread(&_SWMAGIC, sizeof(USHORT), 1, keyFile);
+
 		//read key length
 		int tmpKeyLen = 0;
 		fread(&tmpKeyLen, sizeof(int), 1, keyFile);
@@ -33,6 +37,7 @@ SWPacketMaker::SWPacketMaker() {
 
 			if (fileSize - sizeof(int) - tmpKeyLen < 0) {
 				sprintf_s(_keyInfo, "Invalid_KeySize");
+				fclose(keyFile);
 				return;
 			}
 			fread(&buffer, sizeof(char), tmpKeyLen, keyFile);
@@ -40,8 +45,11 @@ SWPacketMaker::SWPacketMaker() {
 			//decrypt if needed
 			_keyLength = tmpKeyLen;
 			memcpy(_keyTable, buffer, _keyLength);
+			memset(buffer, 0, sizeof(buffer));
 
-			fread(&buffer, sizeof(char), fileSize - sizeof(int) - tmpKeyLen, keyFile);
+
+
+			fread(&buffer, sizeof(char), (fileSize - sizeof(int) - tmpKeyLen) > 64 ? 64: (fileSize - sizeof(int) - tmpKeyLen), keyFile);
 			//read description
 			sprintf_s(_keyInfo, "%s", buffer);
 
@@ -63,7 +71,7 @@ SWHEADER* SWPacketMaker::GetSWHeader(IPv4Packet* packet) {
 
 	SWHEADER* swheader = (SWHEADER*)(packet->_data);
 
-	if (swheader->_magic != SWMAGIC || swheader->_const_value01 != SWCONSTVALUE) {
+	if (swheader->_magic != _SWMAGIC || swheader->_const_value01 != SWCONSTVALUE) {
 		return nullptr;
 	}
 		
