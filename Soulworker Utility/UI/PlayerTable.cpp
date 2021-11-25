@@ -89,7 +89,7 @@ VOID PlayerTable::Update() {
 
 		CHAR title[128] = { 0 };
 
-		sprintf_s(title, 128, "%s : %02d:%02d [v1.2.7a_%s]  ###DamageMeter", DAMAGEMETER.GetWorldName(), (UINT)DAMAGEMETER.GetTime() / 60, (UINT)DAMAGEMETER.GetTime() % 60, SWPACKETMAKER.GetKeyInfo());
+		sprintf_s(title, 128, "%s : %02d:%02d [v1.2.8a_%s]  ###DamageMeter", DAMAGEMETER.GetWorldName(), (UINT)DAMAGEMETER.GetTime() / 60, (UINT)DAMAGEMETER.GetTime() % 60, SWPACKETMAKER.GetKeyInfo());
 		ImGui::Begin(title, 0, windowFlag);
 		{
 			if (!UIOPTION.isOption() || _tableResize)
