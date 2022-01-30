@@ -39,6 +39,7 @@
 #define STR_TABLE_SOULSTONE_DAMAGE u8"靈魂石傷(%)"
 #define STR_TABLE_AVERAGE_AB u8"均貫"
 #define STR_TABLE_MiSS u8"Miss"
+#define STR_TABLE_MISS_RATE u8"Miss%"
 #define STR_TABLE_PARTIAL u8"失敗傷"
 #define STR_TABLE_GET_HIT_INCLUDEZERO u8"受擊數(含0傷)"
 #define STR_TABLE_GET_HIT u8"受擊數"
@@ -52,6 +53,7 @@
 #define STR_TABLE_GIGA_ENLIGHTEN u8"Giga啟蒙"
 #define STR_TABLE_TERA_ENLIGHTEN u8"Tera啟蒙"
 #define STR_TABLE_LOSED_HP u8"損失HP"
+#define STR_TABLE_DODGE_COUNT u8"Dodge"
 
 #define STR_TABLE_DURATION u8"持續時間" // buff,debuff
 

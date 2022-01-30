@@ -1,4 +1,5 @@
 #pragma once
+// encoding utf-8 (ㅇㅅㅇ)
 //https://i.imgur.com/dT4XLuh.png
 #define STR_WORLD_NO_INFORMATION u8"No Info"
 #define PLAYER_NAME_CANT_FIND u8"Unknown?"
