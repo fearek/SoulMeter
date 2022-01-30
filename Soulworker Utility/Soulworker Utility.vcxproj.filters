@@ -542,4 +542,9 @@
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="meter_icon_1.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
