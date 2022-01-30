@@ -22,11 +22,15 @@ VOID SWPacketStatChange::Do() {
 		p_data = _data + sizeof(SWHEADER) + sizeof(SWPACKETSTATCHANGE_HEADER);
 	}
 	else { // 한섭은 1이면 뭔가 안맞길래 이래해둠
+		// when you entering maze, there is stat packets
 #if defined(SERVER_KOREA)
 		p_data = _data + sizeof(SWHEADER) + sizeof(SWPACKETSTATCHANGE_HEADER) + 14;
 #endif
 #if defined(SERVER_STEAM)
 		p_data = _data + sizeof(SWHEADER) + sizeof(SWPACKETSTATCHANGE_HEADER);
+#endif
+#if defined(SERVER_JAPAN)
+		p_data = _data + sizeof(SWHEADER) + sizeof(SWPACKETSTATCHANGE_HEADER) + 14; // same as KR server
 #endif
 	}
 
@@ -55,6 +59,9 @@ VOID SWPacketStatChange::Debug() {
 #endif
 #if defined(SERVER_STEAM)
 		p_data = _data + sizeof(SWHEADER) + sizeof(SWPACKETSTATCHANGE_HEADER);
+#endif
+#if defined(SERVER_JAPAN)
+		p_data = _data + sizeof(SWHEADER) + sizeof(SWPACKETSTATCHANGE_HEADER) + 14;
 #endif
 	}
 

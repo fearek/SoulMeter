@@ -1,9 +1,8 @@
 #pragma once
-// SERVER_KOREA : Stove (KR server)
-// SERVER_SETAM : Steam (EN, TC Server)
+// Supported Server : SERVER_KOREA, SERVER_STEAM, SERVER_JAPAN
 // Supported Languages : _LANG_KOREAN, _LANG_ENGLISH, _LANG_CHINESES
-#define SERVER_STEAM
-#define _LANG_CHINESES
+#define SERVER_JAPAN
+#define _LANG_ENGLISH
 
 #ifdef _LANG_KOREAN
 #include "Korean.h"

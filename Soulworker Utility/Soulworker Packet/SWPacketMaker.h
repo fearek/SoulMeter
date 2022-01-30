@@ -123,6 +123,14 @@ private:
 
 	USHORT _SWMAGIC = 3;
 #endif
+#if defined(SERVER_JAPAN) // same as past of KR server
+	BYTE _keyTable[64] = { 0x60, 0x3B, 0x0B }; 
+	char _keyInfo[32] = "No_key_info";
+	int _keyLength = 3;
+
+	USHORT _SWMAGIC = 2;
+#endif
+
 	
 
 	SWHEADER* GetSWHeader(IPv4Packet* packet);

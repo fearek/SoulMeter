@@ -19,7 +19,10 @@ typedef struct _SWPACKETDAMAGE_MONSTER {
 	BYTE _unknown02[22]; // sum 52 // previous value 18
 #endif
 #ifdef SERVER_STEAM
-	BYTE _unknown02[10];//previous value 22
+	BYTE _unknown02[10]; //previous value 22
+#endif
+#ifdef SERVER_JAPAN
+    BYTE _unknown02[18]; // same as past of KR server
 #endif
 }SWPACKETDAMAGE_MONSTER;
 

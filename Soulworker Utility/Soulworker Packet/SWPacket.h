@@ -8,6 +8,9 @@
 #ifdef SERVER_STEAM
 #define SWMAGIC 3
 #endif
+#ifdef SERVER_JAPAN
+#define SWMAGIC 2
+#endif
 
 //SWMAGIC WILL BE SET BY KEY FILE
 

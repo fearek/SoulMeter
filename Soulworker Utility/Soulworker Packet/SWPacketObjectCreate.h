@@ -19,6 +19,9 @@ typedef struct _SWPACKETOBJECTCREATE {
 #ifdef SERVER_STEAM
 	BYTE _unknown02[5]; // unknown01 -> id -> unknown02 구조인채로 33
 #endif
+#ifdef SERVER_JAPAN
+	BYTE _unknown02[17]; // same as KR server
+#endif
 	UINT32 _realDB2;
 	UINT32 _owner_id;
 	BYTE _unknown03[54];

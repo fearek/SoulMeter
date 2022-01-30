@@ -180,6 +180,9 @@ BOOL UiWindow::SetFontList() {
 #ifdef SERVER_STEAM
 		io.Fonts->AddFontFromFileTTF(fontPath, 32, &config, io.Fonts->GetGlyphRangesChineseFull());
 #endif
+#ifdef SERVER_JAPAN
+		io.Fonts->AddFontFromFileTTF(fontPath, 32, &config, io.Fonts->GetGlyphRangesJapanese());
+#endif
 
 
 		

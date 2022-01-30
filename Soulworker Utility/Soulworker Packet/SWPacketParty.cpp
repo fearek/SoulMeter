@@ -57,7 +57,7 @@ VOID SWPacketParty::Debug() {
 			return;
 		}
 
-		//Log::WriteLog(const_cast<LPTSTR>(_T("[DEBUG] [PARTY DATA] [PARTY PLAYER %d] [ID %08x] [NAME = %s] [NICKMEMSIZE = %d] [JOB = %d]")), party_data->_playerID, utf16, party_data->_nickSize, job);
+		//Log::WriteLog(const_cast<LPTSTR>(_T("[DEBUG] [PARTY DATA] [ID %08x] [NAME = %s] [NICKMEMSIZE = %d] [JOB = %d]")), party_data->_playerID, utf16, party_data->_nickSize, job);
 
 		p_data += sizeof(SWPACKETPARTY_DATA) + party_data->_nickSize + SWPACKETPARTY_DUMMY;
 	}

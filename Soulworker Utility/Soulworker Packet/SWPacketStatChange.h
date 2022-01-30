@@ -24,6 +24,13 @@ typedef struct _SWPACKETSTATCHANGE_DATA {
 	USHORT _statType;
 }SWPACKETSTATCHANGE_DATA;
 #endif
+#if defined(SERVER_JAPAN) // same as KR server
+typedef struct _SWPACKETSTATCHANGE_DATA {
+	FLOAT _statValue;
+	USHORT _statType;
+	BYTE _unknown01[8];
+}SWPACKETSTATCHANGE_DATA;
+#endif
 
 #pragma pack(pop)
 
