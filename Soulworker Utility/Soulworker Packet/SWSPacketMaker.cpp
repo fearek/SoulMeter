@@ -85,7 +85,7 @@ VOID SWSPacketMaker::Decrypt(BYTE* data, const UINT size, const UINT start) {
 		return;
 
 	for (UINT i = 0; i < size; i++)
-		data[i + start] ^= _keyTable[i % (sizeof(_keyTable) / sizeof(BYTE))];
+		data[i + start] ^= _keyTable[i % (_keyLength)];  //data[i + start] ^= _keyTable[i % (sizeof(_keyTable) / sizeof(BYTE))];
 }
 
 VOID SWSPacketMaker::ResizePacket(IPv4Packet* packet) {
