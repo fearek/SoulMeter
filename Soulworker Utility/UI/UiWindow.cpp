@@ -181,7 +181,9 @@ BOOL UiWindow::SetFontList() {
 		io.Fonts->AddFontFromFileTTF(fontPath, 32, &config, io.Fonts->GetGlyphRangesChineseFull());
 #endif
 #ifdef SERVER_JAPAN
-		io.Fonts->AddFontFromFileTTF(fontPath, 32, &config, io.Fonts->GetGlyphRangesJapanese());
+		/* GetGlyphRangesJapanese() doesn't contain CJK Ideograms, so it can't display "肆" at "猫刀・肆の型：月斬" */
+		// io.Fonts->AddFontFromFileTTF(fontPath, 32, &config, io.Fonts->GetGlyphRangesJapanese());
+		io.Fonts->AddFontFromFileTTF(fontPath, 32, &config, io.Fonts->GetGlyphRangesChineseFull());
 #endif
 
 
