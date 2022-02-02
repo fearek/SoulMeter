@@ -333,6 +333,9 @@
     <ClInclude Include="Soulworker Packet\SWPacketDead.h">
       <Filter>SWPacket\Packet\0x03</Filter>
     </ClInclude>
+    <ClInclude Include="Language\Japanese.h">
+      <Filter>Language</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">

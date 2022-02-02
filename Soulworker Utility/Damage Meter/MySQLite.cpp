@@ -2,14 +2,17 @@
 #include ".\Language\Region.h"
 #include ".\Damage Meter\MySQLite.h"
 
-#if defined(_LANG_KOREAN)
-constexpr auto LANG = "KR";
+#ifdef _LANG_KOREAN
+#define LANG "KR"
 #endif
 #ifdef _LANG_ENGLISH
 #define LANG "EN"
 #endif
 #ifdef _LANG_CHINESES
 #define LANG "TC"
+#endif
+#ifdef _LANG_JAPANESE
+#define LANG "JP"
 #endif
 
 MySQL::MySQL() : _db(nullptr), _memdb(nullptr) {
