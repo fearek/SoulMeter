@@ -11,12 +11,6 @@ You need to run dps meter before entering maze for viewing name and jobs (or not
 Also, USE AT YOUR OWN RISK
 I recommend not to talk about dps meter at in-game public chat
 
- <a href="https://www.buymeacoffee.com/nyanchii" target="_blank">
-	<img
-	 src="https://img.buymeacoffee.com/api/?url=aHR0cHM6Ly9pbWcuYnV5bWVhY29mZmVlLmNvbS9hcGkvP25hbWU9bnlhbmNoaWkmc2l6ZT0zMDAmYmctaW1hZ2U9Ym1jJmJhY2tncm91bmQ9NUY3RkZG&creator=nyanchii&design_code=1&design_color=%235F7FFF&slug=nyanchii"
-	 width="400px"
-	 />
- </a>
 
 ---
 Below content is Readme from original repo [Park3740/SoulMeter]
