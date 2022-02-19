@@ -1,4 +1,3 @@
-![](https://github.com/myusername4573/SoulMeter/blob/main/example.png)
 
 Soulworker DPS Meter for Global Server
 
@@ -14,16 +13,6 @@ I recommend not to talk about dps meter at in-game public chat
 
 ---
 Below content is Readme from original repo [Park3740/SoulMeter]
-
-# SoulMeter
- <a href="https://donaricano.com/mypage/1575892812_S5rRYv" target="_blank">
-	<img
-	 src="https://d1u4yishnma8v5.cloudfront.net/donarincano_gift.png"
-	 alt="donaricano-btn"
-	 style="height:70px !important;width: 200px !important;"
-	 />
- </a>
-
 
 국내에서 서비스 하고 있는 소울워커 RPG의 DPS meter 입니다.
 
