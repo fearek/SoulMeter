@@ -1,4 +1,5 @@
-
+THIS IS BACKUP REPO
+WORKING ONE: https://github.com/fearek/DPSMeter
 Soulworker DPS Meter for Global Server
 
 CTRL + DEL : Reset
